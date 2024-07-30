@@ -5,6 +5,8 @@ import "./globals.css";
 import Providers from "@/utils/query-provider";
 import Footer from "@/components/Layouts/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import Header from "@/components/Layouts/Header";
+
 
 const robotoMono = Roboto_Mono({ subsets: ["latin"] });
 
@@ -31,7 +33,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-          <Footer />
+            <Footer />
           </ThemeProvider>
         </Providers>
       </body>

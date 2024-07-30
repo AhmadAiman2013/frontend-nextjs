@@ -1,30 +1,27 @@
+'use client'
+
 import clsx from "clsx";
 import ApplicationLogo from "../ApplicationLogo";
 import { ModeToggle } from "../theme-toogle";
-import { UserType } from "@/types/User";
-
 import HeaderUser from "../HeaderUser";
+import HeaderMain from "../HeaderMain";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import HeaderMain from "../HeaderMain";
+import { useAuth } from "@/hooks/useAuth";
 
 
 interface HeaderProps {
   className?: string;
-  user?: UserType;
 }
 
-const Header = ({ className, user }: HeaderProps) => {
-  const pathname = usePathname()
+const Header = ({ className }: HeaderProps) => {
+  const { user } = useAuth({})
 
-  const [open, setOpen] = useState<boolean>(false)
 
   return (
     <div
       className={clsx(
-        "shrink-0 flex h-[60px] w-full  justify-between items-center sm:items-end mx-auto py-1 mt-6",
+        "flex h-[60px] w-full  justify-between items-center sm:items-end mx-auto py-1 mt-6",
         className
       )}
     >
@@ -37,7 +34,7 @@ const Header = ({ className, user }: HeaderProps) => {
         <h1 className="ml-2 font-bold">CORET</h1>
       </Link>
       <div className="flex gap-3 items-center">
-        {pathname === '/dashboard' && user ? <HeaderMain user={user}/> : <HeaderUser />}
+        { user ? <HeaderMain user={user}/> : <HeaderUser />}
 
         <ModeToggle />
       </div>
