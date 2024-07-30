@@ -1,7 +1,6 @@
 'use client'
 import { ReactNode } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import Navigation from '@/components/Layouts/Navigation'
 import Header from '@/components/Layouts/Header'
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
@@ -12,10 +11,12 @@ const AppLayout = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <div className='w-full max-w-[1000px] mx-auto'>
-      <Header className='max-w-[1000px]' user={user} />
-      <main>{children}</main>
+    <>
+    <Header className='max-w-[990px]'/>
+    <div className='w-full max-w-[990px] mx-auto'>
+      {children}
     </div>
+    </>
   )
 }
 
