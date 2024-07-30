@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${robotoMono.className} flex flex-col container sm:w-full h-screen bg-background text-foreground dark:bg-background dark:text-foreground antialiased`}
+        className={`${robotoMono.className} flex flex-col container sm:w-full absolute inset-0 -z-10 h-full w-full bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#000022_1px,transparent_1px),linear-gradient(to_bottom,#000022_1px,transparent_1px)] bg-[size:6rem_4rem] antialiased`}
       >
         <Providers>
           <ThemeProvider
@@ -31,8 +31,8 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
-          </ThemeProvider>
           <Footer />
+          </ThemeProvider>
         </Providers>
       </body>
     </html>

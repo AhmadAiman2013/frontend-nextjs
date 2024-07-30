@@ -6,6 +6,10 @@ import { useSearchParams } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { valibotValidator } from '@tanstack/valibot-form-adapter'
 
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
 import { useAuth } from '@/hooks/useAuth'
 import AuthCard from '@/components/AuthCard'
 import ApplicationLogo from '@/components/ApplicationLogo'
@@ -36,7 +40,7 @@ const PasswordResetPage = () => {
     <AuthCard
       logo={
         <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+          <ApplicationLogo className="w-20 h-20 fill-current" />
         </Link>
       }>
       <form
@@ -57,20 +61,20 @@ const PasswordResetPage = () => {
             children={(field) => {
               return (
                 <div>
-                  <label
+                  <Label
                     htmlFor={field.name}
-                    className="undefined block font-medium text-sm text-gray-700"
+                    className="block font-medium "
                   >
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     type="email"
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 w-full "
                   />
                   {field.state.meta.isTouched &&
                   field.state.meta.errors.length ? (
@@ -94,20 +98,20 @@ const PasswordResetPage = () => {
             }}
             children={(field) => (
               <div>
-                <label
+                <Label
                   htmlFor={field.name}
-                  className="undefined block font-medium text-sm text-gray-700"
+                  className="font-medium text-sm "
                 >
                   Password
-                </label>
-                <input
+                </Label>
+                <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   type="password"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 w-full "
                 />
                 {field.state.meta.isTouched &&
                 field.state.meta.errors.length ? (
@@ -139,20 +143,20 @@ const PasswordResetPage = () => {
             }}
             children={(field) => (
               <div>
-                <label
+                <Label
                   htmlFor={field.name}
-                  className="undefined block font-medium text-sm text-gray-700"
+                  className="font-medium text-sm "
                 >
                   Confirm password
-                </label>
-                <input
+                </Label>
+                <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   type="password"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 w-full "
                 />
                 {field.state.meta.isTouched &&
                 field.state.meta.errors.length ? (
@@ -169,13 +173,12 @@ const PasswordResetPage = () => {
         <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <button
-                className="ml-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                type="submit"
+              <Button
+                className="ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
                 disabled={!canSubmit}
               >
                 {isSubmitting ? "Resetting..." : "Reset"}
-              </button>
+              </Button>
             )}
           />
         </div>

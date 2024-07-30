@@ -12,6 +12,7 @@ import ApplicationLogo from '@/components/ApplicationLogo'
 
 import { UserType } from '@/types/User'
 import { useAuth } from '@/hooks/useAuth'
+import { ModeToggle } from '../theme-toogle'
 const Navigation = ({ user }: { user: UserType }) => {
   const pathname = usePathname()
 
@@ -19,7 +20,7 @@ const Navigation = ({ user }: { user: UserType }) => {
   const [open, setOpen] = useState<boolean>(false)
 
   return (
-    <nav className="bg-white border-b border-gray-100">
+    <nav className="border-b border-gray-100">
       {/* Primary Navigation Menu */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
@@ -66,6 +67,7 @@ const Navigation = ({ user }: { user: UserType }) => {
               <DropdownButton onClick={logout}>Logout</DropdownButton>
             </Dropdown>
           </div>
+          <ModeToggle />
 
           {/* Hamburger */}
           <div className="-mr-2 flex items-center sm:hidden">

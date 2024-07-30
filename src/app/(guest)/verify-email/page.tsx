@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { Button } from "@/components/ui/button";
+
 import { useAuth } from "@/hooks/useAuth";
 import AuthCard from "@/components/AuthCard";
 import ApplicationLogo from "@/components/ApplicationLogo";
@@ -24,18 +26,18 @@ const VerifyEmailPage = () => {
     <AuthCard
       logo={
         <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+          <ApplicationLogo className="w-20 h-20 fill-current" />
         </Link>
       }
     >
-      <div className="mb-4 text-sm text-gray-600">
+      <div className="mb-4 text-sm ">
         Thanks for signing up! Before getting started, could you verify your
         email address by clicking on the link we just emailed to you? If you
         didn&apos;t receive the email, we will gladly send you another.
       </div>
 
       {status === "verification-link-sent" ? (
-        <div className="mb-4 font-medium text-sm text-gray-600">
+        <div className="mb-4 font-medium text-sm ">
           Waiting for verification email
         </div>
       ) : (
@@ -46,16 +48,16 @@ const VerifyEmailPage = () => {
       )}
 
       <div className="mt-4 flex items-center justify-between">
-        <button
-          className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+        <Button
+          className="items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
           onClick={onResend}
         >
           Resend Verification Email
-        </button>
+        </Button>
 
         <button
           type="button"
-          className="underline text-sm text-gray-600 hover:text-gray-900"
+          className="underline text-sm  hover:text-blue-primary dark:hover:text-blue-primary"
           onClick={logout}
         >
           Logout

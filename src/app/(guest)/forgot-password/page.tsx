@@ -2,6 +2,10 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
 import { useAuth } from '@/hooks/useAuth'
 import { useForm } from '@tanstack/react-form'
 import axios from 'axios'
@@ -46,10 +50,10 @@ const ForgotPasswordPage = () => {
     <AuthCard
       logo={
         <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+          <ApplicationLogo className="w-20 h-20 fill-current " />
         </Link>
       }>
-      <div className="mb-4 text-sm text-gray-600">
+      <div className="mb-4 text-sm ">
         Forgot your password? No problem. Just let us know your email address
         and we will email you a password reset link that will allow you to
         choose a new one.
@@ -75,20 +79,20 @@ const ForgotPasswordPage = () => {
             children={(field) => {
               return (
                 <div>
-                  <label
+                  <Label
                     htmlFor={field.name}
-                    className="undefined block font-medium text-sm text-gray-700"
+                    className=" font-medium text-sm "
                   >
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     type="email"
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 w-full"
                   />
                   {field.state.meta.isTouched &&
                   field.state.meta.errors.length ? (
@@ -106,13 +110,13 @@ const ForgotPasswordPage = () => {
         <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <button
-                className="ml-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+              <Button
+                className="items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
                 type="submit"
                 disabled={!canSubmit}
               >
                 {isSubmitting ? "Sending.." : "Email Reset Link"}
-              </button>
+              </Button>
             )}
           />
         </div>
