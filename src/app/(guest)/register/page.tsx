@@ -4,9 +4,12 @@ import Link from "next/link";
 
 import { useState } from "react";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
-import * as v from "valibot";
 import { useForm } from "@tanstack/react-form";
 import { RegisterSchema } from "@/types/schema/UserSchema";
+
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 import { useAuth } from "@/hooks/useAuth";
 import ApplicationLogo from "@/components/ApplicationLogo";
@@ -40,7 +43,7 @@ const RegisterPage = () => {
     <AuthCard
       logo={
         <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+          <ApplicationLogo className="w-20 h-20 fill-current " />
         </Link>
       }
     >
@@ -63,19 +66,19 @@ const RegisterPage = () => {
             children={(field) => {
               return (
                 <div>
-                  <label
+                  <Label
                     htmlFor={field.name}
-                    className="undefined block font-medium text-sm text-gray-700"
+                    className="font-medium text-sm "
                   >
                     Name
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 w-full "
                   />
                   {field.state.meta.isTouched &&
                   field.state.meta.errors.length ? (
@@ -100,20 +103,20 @@ const RegisterPage = () => {
             children={(field) => {
               return (
                 <div>
-                  <label
+                  <Label
                     htmlFor={field.name}
-                    className="undefined block font-medium text-sm text-gray-700"
+                    className="font-medium text-sm "
                   >
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     type="email"
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 w-full"
                   />
                   {field.state.meta.isTouched &&
                   field.state.meta.errors.length ? (
@@ -137,20 +140,20 @@ const RegisterPage = () => {
             }}
             children={(field) => (
               <div>
-                <label
+                <Label
                   htmlFor={field.name}
-                  className="undefined block font-medium text-sm text-gray-700"
+                  className="font-medium text-sm "
                 >
                   Password
-                </label>
-                <input
+                </Label>
+                <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   type="password"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 w-full"
                 />
                 {field.state.meta.isTouched &&
                 field.state.meta.errors.length ? (
@@ -182,20 +185,20 @@ const RegisterPage = () => {
             }}
             children={(field) => (
               <div>
-                <label
+                <Label
                   htmlFor={field.name}
-                  className="undefined block font-medium text-sm text-gray-700"
+                  className="font-medium text-sm "
                 >
                   Confirm password
-                </label>
-                <input
+                </Label>
+                <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   type="password"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 w-full"
                 />
                 {field.state.meta.isTouched &&
                 field.state.meta.errors.length ? (
@@ -211,7 +214,7 @@ const RegisterPage = () => {
         <div className="flex items-center justify-end mt-4">
           <Link
             href="/login"
-            className="underline text-sm text-gray-600 hover:text-gray-900"
+            className="underline text-sm  hover:text-blue-primary dark:hover:text-blue-primary"
           >
             Already registered?
           </Link>
@@ -219,17 +222,24 @@ const RegisterPage = () => {
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <button
-                className="ml-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+              <Button
+                className="ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
+                variant="default"
                 type="submit"
                 disabled={!canSubmit}
               >
                 {isSubmitting ? "Registering..." : "Register"}
-              </button>
+              </Button>
             )}
           />
         </div>
       </form>
+      <div className="mt-4 text-center text-sm">
+          Already have an account?{" "}
+          <Link href="/login" className="underline">
+            Login
+          </Link>
+        </div>
     </AuthCard>
   );
 };
