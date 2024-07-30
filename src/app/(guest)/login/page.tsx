@@ -7,6 +7,12 @@ import { valibotValidator } from "@tanstack/valibot-form-adapter";
 import { useForm } from "@tanstack/react-form";
 import { LoginSchema } from "@/types/schema/UserSchema";
 
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {SiGoogle} from 'react-icons/si'
+
 import { useAuth } from "@/hooks/useAuth";
 import ApplicationLogo from "@/components/ApplicationLogo";
 import AuthCard from "@/components/AuthCard";
@@ -57,7 +63,7 @@ const LoginPage = () => {
     <AuthCard
       logo={
         <Link href="/">
-          <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+          <ApplicationLogo className="w-20 h-20 fill-current " />
         </Link>
       }
     >
@@ -80,20 +86,20 @@ const LoginPage = () => {
             children={(field) => {
               return (
                 <div>
-                  <label
+                  <Label
                     htmlFor={field.name}
-                    className="undefined block font-medium text-sm text-gray-700"
+                    className="font-medium text-sm"
                   >
                     Email
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     type="email"
                     onChange={(e) => field.handleChange(e.target.value)}
-                    className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    className="mt-1 w-full "
                   />
                   {field.state.meta.isTouched &&
                   field.state.meta.errors.length ? (
@@ -117,20 +123,20 @@ const LoginPage = () => {
             }}
             children={(field) => (
               <div>
-                <label
+                <Label
                   htmlFor={field.name}
-                  className="undefined block font-medium text-sm text-gray-700"
+                  className="font-medium text-sm "
                 >
                   Password
-                </label>
-                <input
+                </Label>
+                <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   type="password"
                   onChange={(e) => field.handleChange(e.target.value)}
-                  className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                  className="mt-1 w-full "
                 />
                 {field.state.meta.isTouched &&
                 field.state.meta.errors.length ? (
@@ -150,24 +156,18 @@ const LoginPage = () => {
               onChange: LoginSchema.entries.remember,
             }}
             children={(field) => (
-              <div>
-                <label
-                  htmlFor={field.name}
-                  className="inline-flex items-center"
-                >
-                  <input
-                    id={field.name}
+              <div className="flex items-center space-x-2">
+                <Checkbox  id={field.name}
                     name={field.name}
                     checked={field.state.value}
                     onBlur={field.handleBlur}
-                    type="checkbox"
-                    onChange={(e) => field.handleChange(e.target.checked)}
-                    className="rounded border-[#99A6AE] text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  />
-                  <span className="ml-2 text-[#252729] text-sm leading-[150%] tracking-[-0.4px] font-medium">
+                    onCheckedChange={(checked) => field.setValue(checked as boolean)}/>
+                <Label
+                  htmlFor={field.name}
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
                     Remember me
-                  </span>
-                </label>
+                </Label>
               </div>
             )}
           />
@@ -175,7 +175,7 @@ const LoginPage = () => {
         <div className="flex items-center justify-end mt-4">
           <Link
             href="/forgot-password"
-            className="underline text-sm text-gray-600 hover:text-gray-900"
+            className="underline text-sm hover:text-blue-primary dark:hover:text-blue-primary"
           >
             Forgot your password?
           </Link>
@@ -183,26 +183,33 @@ const LoginPage = () => {
           <form.Subscribe
             selector={(state) => [state.canSubmit, state.isSubmitting]}
             children={([canSubmit, isSubmitting]) => (
-              <button
-                className="ml-3 inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-                type="submit"
+              <Button
+                className="ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
                 disabled={!canSubmit}
               >
                 {isSubmitting ? "Login..." : "Login"}
-              </button>
+              </Button>
             )}
           />
         </div>
       </form>
-      <div className="flex justify-center mt-2">
-        <button
+      <div className="mt-4">
+        
+        <Button
           onClick={submitGoogle}
           type="button"
-          className=" text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2"
+          className="w-full text-white"
         >
+          <SiGoogle className="w-4 h-4 inline-block mr-2" />
           Sign in with Google
-        </button>
+        </Button>
       </div>
+      <div className="mt-4 text-center text-sm">
+          Doest not have an account?{" "}
+          <Link href="/register" className="underline">
+            Signup
+          </Link>
+        </div>
       <AuthSessionStatus status={status} />
     </AuthCard>
   );
