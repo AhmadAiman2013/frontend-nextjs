@@ -1,7 +1,7 @@
 import { TaskType } from "./Task"
 
 export type CardType = {
-    id: number;
+    id: string;
     boards_id: number;
     title : string;
     order: number;

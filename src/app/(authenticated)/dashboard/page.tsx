@@ -1,6 +1,6 @@
 "use client";
 
-import BoardsCard from "@/components/BoardsCard";
+import BoardsCard from "@/components/board/BoardsCard";
 import { useBoard } from "@/hooks/useBoard";
 import { Calendar, CircleCheckBig, Folder } from "lucide-react";
 

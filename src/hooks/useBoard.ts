@@ -3,15 +3,14 @@ import { BoardIdResponse, BoardIdType, BoardResponse } from '@/types/Board';
 import { BoardType } from '@/types/Board';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios'
-import { usePathname } from 'next/navigation';
 
 interface BoardProps {
     id?: string
 }
 
 export const useBoard = ({ id } : BoardProps) => {
-    const pathname = usePathname()
 
+  // fetch all boards
     const { data: boards, isLoading : isLoadingBoardId } = useQuery<BoardResponse>({
         queryKey: ["boards"],
         queryFn: async () : Promise<BoardResponse> =>{
@@ -30,8 +29,12 @@ export const useBoard = ({ id } : BoardProps) => {
               };
           }
         },
+        staleTime: 10 * 1000,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
       });
     
+    // fetch individual board
     const { data: board, isLoading : isLoadingBoard } = useQuery<BoardIdResponse>({
         queryKey: ["board", id],
         queryFn: async () : Promise<BoardIdResponse> =>{
@@ -51,8 +54,15 @@ export const useBoard = ({ id } : BoardProps) => {
               };
           }
         },
-        enabled: !!id 
+        staleTime: 10 * 1000,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false, 
+        enabled: !!id,
       });
+    
+    // create board
+    // update board
+    // delete board
 
     return {
         boards,

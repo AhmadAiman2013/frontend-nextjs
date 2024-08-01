@@ -1,7 +1,7 @@
 import { CardType } from "./Card"
 
 export type BoardType = {
-    id: number
+    id: string
     title: string
     user_id: number
     created_at: Date

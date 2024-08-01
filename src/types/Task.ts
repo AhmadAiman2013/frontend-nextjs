@@ -1,5 +1,5 @@
 export type TaskType = {
-    id: number;
+    id: string;
     card_id : number;
     title: string;
     order: number;
