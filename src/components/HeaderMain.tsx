@@ -1,17 +1,14 @@
 import { UserType } from "@/types/User";
 import { useAuth } from "@/hooks/useAuth";
-import { TfiArrowCircleDown } from "react-icons/tfi";
+import { TfiArrowCircleDown, TfiArrowCircleUp } from "react-icons/tfi";
 import Link from "next/link";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { LogOut } from "lucide-react";
+import { useState } from "react";
 
 const HeaderMain = ({ user }: { user: UserType }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth({});
 
   return (
@@ -19,10 +16,14 @@ const HeaderMain = ({ user }: { user: UserType }) => {
       <div className=" hover:text-blue-primary dark:hover:text-blue-primary">
         <Link href="/dashboard">{user?.name}</Link>
       </div>
-      <Popover>
+      <Popover onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <Button variant="ghost">
-            <TfiArrowCircleDown className="h-4 w-4" />
+            {isOpen ? (
+              <TfiArrowCircleUp className="h-4 w-4" />
+            ) : (
+              <TfiArrowCircleDown className="h-4 w-4" />
+            )}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-15 p-1">
