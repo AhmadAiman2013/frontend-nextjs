@@ -2,14 +2,21 @@
 
 import BoardsCard from "@/components/board/BoardsCard";
 import { useBoard } from "@/hooks/useBoard";
-import { Calendar, CircleCheckBig, Folder } from "lucide-react";
+import { Calendar, CircleCheckBig, Folder, SquarePlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import BoardsCreate from "@/components/board/BoardsCreate";
 
 const DashboardPage = () => {
   const { boards } = useBoard({});
 
   return (
     <div className="pt-12 w-full max-w-[990px]">
+      <div className="flex gap-1 items-center">
       <p className="text-2xl font-semibold">What do you plan to do today?</p>
+      <Button variant="ghost" size="icon">
+        <SquarePlus size={20} />
+      </Button>
+      </div>
       <div>
         <section className="flex gap-2">
           <div className="basis-3/4 flex gap-2 items-center">
@@ -30,6 +37,7 @@ const DashboardPage = () => {
             {boards?.data?.map((board) => {
               return <BoardsCard key={board.id} title={board.title} id={board.id}/>;
             })}
+            <BoardsCreate />
           </div>
   
         </section>
