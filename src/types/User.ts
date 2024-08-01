@@ -1,5 +1,5 @@
 export interface UserType {
-    id: number
+    id: string
     email: string
     name: string
     email_verified_at?: Date

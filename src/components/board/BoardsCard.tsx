@@ -2,7 +2,7 @@ import { MoveUpRight } from "lucide-react";
 import Link from "next/link";
 
 interface BoardsCardProps {
-  id: number;
+  id: string;
   title: string;
 }
 
