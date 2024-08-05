@@ -1,7 +1,9 @@
 import * as v from 'valibot';
 
-const BoardDataSchema = v.object({
+export const BoardDataSchema = v.object({
     title: v.pipe(v.string(), v.nonEmpty('Name is required'), v.maxLength(50, 'The title must not exceed 50 characters.')),
 })
 
-export type BoardData = v.InferOutput<typeof BoardDataSchema>
+export type BoardData = v.InferOutput<typeof BoardDataSchema>;
+
+

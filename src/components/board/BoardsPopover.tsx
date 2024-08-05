@@ -3,10 +3,18 @@ import {
     PopoverContent,
     PopoverTrigger,
   } from "@/components/ui/popover"
+import FormInput from "../FormInput"
 
-const BoardsPopover = () => {
+const BoardsPopover = ({ children } : {children : React.ReactNode}) => {
   return (
-    <div>BoardsPopover</div>
+    <Popover >
+        <PopoverTrigger asChild>
+          {children}
+        </PopoverTrigger>
+        <PopoverContent className="w-30 p-1">
+          <FormInput />
+        </PopoverContent>
+      </Popover>
   )
 }
 
