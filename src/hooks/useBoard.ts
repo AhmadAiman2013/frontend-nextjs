@@ -3,12 +3,14 @@ import { BoardIdResponse, BoardIdType, BoardResponse } from '@/types/Board';
 import { BoardType } from '@/types/Board';
 import { AxiosError } from 'axios';
 import axios from '@/lib/axios'
+import { BoardData } from '@/types/schema/BoardSchema';
 
 interface BoardProps {
     id?: string
 }
 
 export const useBoard = ({ id } : BoardProps) => {
+  const queryClient = useQueryClient();
 
   // fetch all boards
     const { data: boards, isLoading : isLoadingBoardId } = useQuery<BoardResponse>({
@@ -60,13 +62,39 @@ export const useBoard = ({ id } : BoardProps) => {
         enabled: !!id,
       });
     
+    // create board mutation
+    const createBoardMutation = useMutation({
+      mutationFn: async (data: BoardData) => {
+        const response = await axios.post('/api/boards', data) 
+        return response
+      },
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: ["boards"]})
+      }
+    })
+
     // create board
+    const createBoard = async (data: BoardData ) => {
+      try {
+        const response = await createBoardMutation.mutateAsync(data)
+        return response
+      } catch (error: any) 
+        {
+          console.error("creat board failed");
+          return {
+            error: error.response?.data?.message || "An unexpected error occurred",
+          };
+      }
+    }
+
+
     // update board
     // delete board
 
     return {
         boards,
         board,
+        createBoard,
         isLoadingBoard,
         isLoadingBoardId
     }
