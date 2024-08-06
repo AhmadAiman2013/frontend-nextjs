@@ -62,7 +62,7 @@ const BoardInput = () => {
                 >
                   Title
                 </Label>
-                <div className="flex justify-center items-end gap-2">
+                <div className="flex w-full justify-center items-end gap-2">
                   <Input
                     id={field.name}
                     name={field.name}
@@ -75,13 +75,12 @@ const BoardInput = () => {
                     selector={(state) => [state.canSubmit, state.isSubmitting]}
                     children={([canSubmit, isSubmitting]) => (
                       <Button
-                        className="ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
+                        className="flex-grow ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
                         disabled={!canSubmit}
                       >
                         {isSubmitting ? (
-                          <p>
-                            <LoaderCircle size={20} className="animate-spin" />{" "}
-                            Create
+                          <p className="flex gap-2">
+                            <LoaderCircle size={20} className="animate-spin" />{" "}Create
                           </p>
                         ) : (
                           "Create"

@@ -9,7 +9,7 @@ const BoardsPopover = ({ children }: { children: React.ReactNode }) => {
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className="w-30 p-1">
+      <PopoverContent className="p-1">
         <BoardInput />
       </PopoverContent>
     </Popover>
