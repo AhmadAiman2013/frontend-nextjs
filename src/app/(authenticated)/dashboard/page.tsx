@@ -6,10 +6,10 @@ import { Calendar, CircleCheckBig, Folder, SquarePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BoardsCreate from "@/components/board/BoardsCreate";
 import BoardsPopover from "@/components/board/BoardsPopover";
-import BoardInput from "@/components/board/BoardInput";
+import BoardInputForm from "@/components/board/BoardInput";
 
 const DashboardPage = () => {
-  const { boards } = useBoard({});
+  const { boards, editingId } = useBoard({});
 
   return (
     <div className="pt-12 w-full max-w-[990px]">
@@ -21,7 +21,7 @@ const DashboardPage = () => {
               <SquarePlus size={20} />
             </Button>
           }
-          popoverContent={<BoardInput />}
+          popoverContent={<BoardInputForm initialValues={{ title: "" }} mode="create" />}
         />
       </div>
       <div>
@@ -43,7 +43,7 @@ const DashboardPage = () => {
           <div className="grid grid-cols-4 md:grid-cols-5 gap-4 w-full max-w-[900px] mt-4">
             {boards?.data?.map((board) => {
               return (
-                <BoardsCard key={board.id} title={board.title} id={board.id} />
+                <BoardsCard key={board.id} title={board.title} id={board.id} editing={board.id === editingId}/>
               );
             })}
             <BoardsCreate />

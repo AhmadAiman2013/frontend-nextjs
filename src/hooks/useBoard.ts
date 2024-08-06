@@ -9,6 +9,7 @@ import { BoardType } from "@/types/Board";
 import { AxiosError } from "axios";
 import axios from "@/lib/axios";
 import { BoardData } from "@/types/schema/BoardSchema";
+import { useEditingStore } from "./useStore";
 
 interface BoardProps {
   id?: string;
@@ -16,6 +17,8 @@ interface BoardProps {
 
 export const useBoard = ({ id }: BoardProps) => {
   const queryClient = useQueryClient();
+  const editingId = useEditingStore((state) => state.editingId);
+  const setEditingId = useEditingStore((state) => state.setEditingId);
 
   // fetch all boards
   const { data: boards, isLoading: isLoadingBoardId } = useQuery<BoardResponse>(
@@ -106,6 +109,39 @@ export const useBoard = ({ id }: BoardProps) => {
   };
 
   // update board
+  const {mutateAsync : updateBoardMutation , isPending : isPendingUpdate} = useMutation({
+    mutationFn: async (data: BoardData) => {
+      const response = await axios.put<{data : BoardType}>(`/api/boards/${id}`, data);
+      return {data: response.data.data};
+    },
+    onSuccess: (newBoard) => {
+      queryClient.setQueryData(["boards"], (oldData : {data : BoardType[]}) => {
+        if (!oldData) return { data: [newBoard.data] };
+        return { data: oldData.data.map((board) => {
+          if (board.id === id) {
+            return newBoard.data;
+          }
+          return board;
+        }) };
+      });
+    },
+  });
+
+  const updateBoard = async (data: BoardData): Promise<BoardCreateResponse> => {
+    try {
+      return await updateBoardMutation(data);
+    } catch (error) {
+      console.error("update board failed");
+      if (error instanceof AxiosError && error.response) {
+        return {
+          error: error.response.data.message || "An unexpected error occurred",
+        };
+      }
+      return {
+        error: "An unexpected error occurred",
+      };
+    }
+  }
   // delete board
   const {mutateAsync : deleteBoardMutation, isPending : isPendingDelete} = useMutation({
     mutationFn: async () => await axios.delete(`/api/boards/${id}`),
@@ -139,9 +175,13 @@ export const useBoard = ({ id }: BoardProps) => {
     boards,
     board,
     createBoard,
+    updateBoard,
     deleteBoard,
     isLoadingBoard,
     isLoadingBoardId,
-    isPendingDelete
+    isPendingUpdate,
+    isPendingDelete,
+    editingId,
+    setEditingId,
   };
 };

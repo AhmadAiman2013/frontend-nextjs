@@ -1,11 +1,11 @@
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, SquarePen, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import BoardsPopover from "./BoardsPopover";
 import { useBoard } from "@/hooks/useBoard";
 import { useToast } from "../ui/use-toast";
 
 const BoardOption = ({ id }: { id: string }) => {
-  const { deleteBoard, isPendingDelete } = useBoard({ id });
+  const { deleteBoard, isPendingDelete, setEditingId } = useBoard({ id });
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -23,6 +23,10 @@ const BoardOption = ({ id }: { id: string }) => {
       description: "Board deleted",
     });
   };
+
+  const handleEdit = () => {
+    setEditingId(id);
+  }
   return (
     <BoardsPopover
       triggerElement={
@@ -37,11 +41,13 @@ const BoardOption = ({ id }: { id: string }) => {
       popoverContent={
         <div>
           <div>
-            <Button variant="ghost">Edit</Button>
+            <Button variant="ghost" size="icon" onClick={handleEdit}>
+                <SquarePen size={20} />
+            </Button>
           </div>
           <div>
-            <Button variant="ghost" onClick={handleDelete} disabled={isPendingDelete}>
-              Delete
+            <Button variant="ghost" size="icon" onClick={handleDelete} disabled={isPendingDelete} >
+              <Trash size={20} />
             </Button>
           </div>
         </div>
