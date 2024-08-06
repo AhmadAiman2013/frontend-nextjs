@@ -3,14 +3,16 @@ import { valibotValidator } from "@tanstack/valibot-form-adapter";
 import { BoardDataSchema } from "@/types/schema/BoardSchema";
 import { useBoard } from "@/hooks/useBoard";
 import { useState } from "react";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { LoaderCircle } from "lucide-react";
+import { useToast } from "../ui/use-toast";
 
-const FormInput = () => {
+const BoardInput = () => {
   const [error, setErrors] = useState<string>("");
   const { createBoard } = useBoard({});
+  const { toast } = useToast();
 
   const form = useForm({
     defaultValues: {
@@ -19,9 +21,19 @@ const FormInput = () => {
     validatorAdapter: valibotValidator(),
     onSubmit: async ({ value }) => {
       const response = await createBoard(value);
-      if (!response) {
-        setErrors(response);
+      if (response.error) {
+        setErrors(response.error);
+        toast({
+          variant: "destructive",
+          title: "Something went wrong",
+          description: response.error,
+        });
+        return;
       }
+      toast({
+        className: "bg-green-500",
+        description: `"${response.data?.title}" board created`,
+      });
     },
   });
   return (
@@ -94,4 +106,4 @@ const FormInput = () => {
   );
 };
 
-export default FormInput;
+export default BoardInput;
