@@ -1,5 +1,5 @@
 import BoardsPopover from "./BoardsPopover";
-import BoardInput from "./BoardInput";
+import BoardInputForm from "./BoardInput";
 
 const BoardsCreate = () => {
   return (
@@ -9,7 +9,7 @@ const BoardsCreate = () => {
           Write one!
         </div>
       }
-      popoverContent={<BoardInput />}
+      popoverContent={<BoardInputForm initialValues={{ title: "" }} mode="create" />}
     />
   );
 };
