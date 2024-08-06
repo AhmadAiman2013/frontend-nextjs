@@ -6,6 +6,7 @@ import { Calendar, CircleCheckBig, Folder, SquarePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BoardsCreate from "@/components/board/BoardsCreate";
 import BoardsPopover from "@/components/board/BoardsPopover";
+import BoardInput from "@/components/board/BoardInput";
 
 const DashboardPage = () => {
   const { boards } = useBoard({});
@@ -14,11 +15,14 @@ const DashboardPage = () => {
     <div className="pt-12 w-full max-w-[990px]">
       <div className="flex gap-1 items-center">
         <p className="text-2xl font-semibold">What do you plan to do today?</p>
-        <BoardsPopover>
-          <Button variant="ghost" size="icon">
-            <SquarePlus size={20} />
-          </Button>
-        </BoardsPopover>
+        <BoardsPopover
+          triggerElement={
+            <Button variant="ghost" size="icon">
+              <SquarePlus size={20} />
+            </Button>
+          }
+          popoverContent={<BoardInput />}
+        />
       </div>
       <div>
         <section className="flex gap-2">

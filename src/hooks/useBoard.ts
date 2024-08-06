@@ -107,13 +107,41 @@ export const useBoard = ({ id }: BoardProps) => {
 
   // update board
   // delete board
-  
+  const {mutateAsync : deleteBoardMutation, isPending : isPendingDelete} = useMutation({
+    mutationFn: async () => await axios.delete(`/api/boards/${id}`),
+    onSuccess: () => {
+      queryClient.setQueryData(["boards"], (oldData : {data : BoardType[]}) => {
+        if (!oldData) return { data: [] };
+        return { data: oldData.data.filter((board) => board.id !== id) };
+      });
+     }
+    
+  })
+
+  const deleteBoard = async () => {
+    try {
+      await deleteBoardMutation();
+    } catch (error) {
+      console.error("delete board failed");
+      if (error instanceof AxiosError && error.response) {
+        return {
+          error: error.response.data.message || "An unexpected error occurred",
+        };
+      }
+      return {
+        error: "An unexpected error occurred",
+      };
+    }
+  }
+
 
   return {
     boards,
     board,
     createBoard,
+    deleteBoard,
     isLoadingBoard,
     isLoadingBoardId,
+    isPendingDelete
   };
 };
