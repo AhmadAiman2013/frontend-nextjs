@@ -18,6 +18,10 @@ export interface BoardIdResponse {
   error?: string
 }
 
+export interface BoardCreateResponse {
+  data?: BoardType,
+  error?: string
+}
 export interface BoardResponse {
   data?: BoardType[]
   error?: string
