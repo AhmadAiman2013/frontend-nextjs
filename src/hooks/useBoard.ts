@@ -18,7 +18,9 @@ interface BoardProps {
 export const useBoard = ({ id }: BoardProps) => {
   const queryClient = useQueryClient();
   const editingId = useEditingStore((state) => state.editingId);
+  const editing = useEditingStore((state) => state.editing);
   const setEditingId = useEditingStore((state) => state.setEditingId);
+  const setEditing = useEditingStore((state) => state.setEditing);
 
   // fetch all boards
   const { data: boards, isLoading: isLoadingBoardId } = useQuery<BoardResponse>(
@@ -181,7 +183,9 @@ export const useBoard = ({ id }: BoardProps) => {
     isLoadingBoardId,
     isPendingUpdate,
     isPendingDelete,
+    editing,
     editingId,
     setEditingId,
+    setEditing
   };
 };
