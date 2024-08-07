@@ -2,12 +2,15 @@ import { useForm } from "@tanstack/react-form";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
 import { BoardDataSchema } from "@/types/schema/BoardSchema";
 import { useBoard } from "@/hooks/useBoard";
-import { useState } from "react";
+import { ElementRef, useRef, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { LoaderCircle } from "lucide-react";
 import { useToast } from "../ui/use-toast";
+import { useOnClickOutside } from 'usehooks-ts'
+import { useRouter } from "next/navigation";
+import { set } from "valibot";
 interface FormValues {
   title: string;
 }
@@ -20,8 +23,10 @@ interface BoardInputFormProps {
 
 const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createBoard, updateBoard, isPendingUpdate , setEditingId, setEditing } = useBoard({id});
+  const { createBoard, updateBoard, isPendingUpdate , setEditingId} = useBoard({id});
   const { toast } = useToast();
+  const formRef = useRef<ElementRef<"form">>(null)
+  const router = useRouter()
 
   const form = useForm({
     defaultValues: initialValues,
@@ -60,13 +65,33 @@ const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
           className: "bg-green-500",
           description: `"${response.data?.title}" board created`,
         });
-        setEditing(false);
+        router.push(`/dashboard/${response.data?.id}`);
       }
     },
   });
+
+  const handleClickOutside = () => {
+    const isPristine = form.state.isPristine
+    const isDirty = form.state.isDirty
+    const isValid = form.state.isValid
+
+    if (isPristine) {
+      setEditingId("")
+      return ;
+    }
+
+    if (isDirty && isValid) {
+      form.handleSubmit()
+    }
+   
+  }
+
+  useOnClickOutside(formRef, handleClickOutside)
+
   return (
     <div>
       <form
+        ref={formRef}
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();

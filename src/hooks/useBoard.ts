@@ -17,10 +17,8 @@ interface BoardProps {
 
 export const useBoard = ({ id }: BoardProps) => {
   const queryClient = useQueryClient();
-  const editingId = useEditingStore((state) => state.editingId);
-  const editing = useEditingStore((state) => state.editing);
+  const editingId = useEditingStore((state) => state.editingId);;
   const setEditingId = useEditingStore((state) => state.setEditingId);
-  const setEditing = useEditingStore((state) => state.setEditing);
 
   // fetch all boards
   const { data: boards, isLoading: isLoadingBoardId } = useQuery<BoardResponse>(
@@ -146,7 +144,7 @@ export const useBoard = ({ id }: BoardProps) => {
   }
   // delete board
   const {mutateAsync : deleteBoardMutation, isPending : isPendingDelete} = useMutation({
-    mutationFn: async () => await axios.delete(`/api/boards/${id}`),
+    mutationFn: async () =>  await axios.delete(`/api/boards/${id}`),
     onSuccess: () => {
       queryClient.setQueryData(["boards"], (oldData : {data : BoardType[]}) => {
         if (!oldData) return { data: [] };
@@ -183,9 +181,7 @@ export const useBoard = ({ id }: BoardProps) => {
     isLoadingBoardId,
     isPendingUpdate,
     isPendingDelete,
-    editing,
     editingId,
     setEditingId,
-    setEditing
   };
 };

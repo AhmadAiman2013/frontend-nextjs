@@ -9,10 +9,10 @@ import BoardsPopover from "@/components/board/BoardsPopover";
 import BoardInputForm from "@/components/board/BoardInput";
 
 const DashboardPage = () => {
-  const { boards, editingId } = useBoard({});
+  const { boards, editingId, isPendingUpdate } = useBoard({});
 
   return (
-    <div className="pt-12 w-full max-w-[990px]">
+    <div className="mb-8 pt-12 w-full max-w-[990px]">
       <div className="flex gap-1 items-center">
         <p className="text-2xl font-semibold">What do you plan to do today?</p>
         <BoardsPopover
