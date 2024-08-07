@@ -30,6 +30,7 @@ const BoardOption = ({ id, classname }: BoardOptionProps) => {
       className: "bg-green-500",
       description: "Board deleted",
     });
+    router.push("/dashboard");
   };
 
   const handleEdit = () => {
