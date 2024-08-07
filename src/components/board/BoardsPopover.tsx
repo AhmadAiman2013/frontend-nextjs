@@ -4,7 +4,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+
 const BoardsPopover = ({ triggerElement, popoverContent }: { triggerElement: React.ReactNode,popoverContent: React.ReactNode }) => {
+  
   return (
     <Popover>
       <PopoverTrigger asChild >{triggerElement}</PopoverTrigger>

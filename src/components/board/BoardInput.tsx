@@ -20,7 +20,7 @@ interface BoardInputFormProps {
 
 const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createBoard, updateBoard, isPendingUpdate , setEditingId } = useBoard({id});
+  const { createBoard, updateBoard, isPendingUpdate , setEditingId, setEditing } = useBoard({id});
   const { toast } = useToast();
 
   const form = useForm({
@@ -60,6 +60,7 @@ const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
           className: "bg-green-500",
           description: `"${response.data?.title}" board created`,
         });
+        setEditing(false);
       }
     },
   });

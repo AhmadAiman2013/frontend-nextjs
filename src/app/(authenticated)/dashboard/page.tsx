@@ -21,7 +21,9 @@ const DashboardPage = () => {
               <SquarePlus size={20} />
             </Button>
           }
-          popoverContent={<BoardInputForm initialValues={{ title: "" }} mode="create" />}
+          popoverContent={
+            <BoardInputForm initialValues={{ title: "" }} mode="create" />
+          }
         />
       </div>
       <div>
@@ -43,7 +45,12 @@ const DashboardPage = () => {
           <div className="grid grid-cols-4 md:grid-cols-5 gap-4 w-full max-w-[900px] mt-4">
             {boards?.data?.map((board) => {
               return (
-                <BoardsCard key={board.id} title={board.title} id={board.id} editing={board.id === editingId}/>
+                <BoardsCard
+                  key={board.id}
+                  title={board.title}
+                  id={board.id}
+                  editing={board.id === editingId}
+                />
               );
             })}
             <BoardsCreate />
