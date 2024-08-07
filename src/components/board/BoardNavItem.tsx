@@ -9,37 +9,37 @@ import {
 } from "@/components/ui/select";
 import { BoardType } from "@/types/Board";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useBoard } from "@/hooks/useBoard";
 
 interface BoardNavItemProps {
-  boards: BoardType[];
-  currentBoard: BoardType;
+  title: string;
+  currentId: string
 }
 
-const BoardNavItem = ({ boards, currentBoard }: BoardNavItemProps) => {
+const BoardNavItem = ({ title, currentId }: BoardNavItemProps) => {
+  const { boards } = useBoard({});
   const router = useRouter();
   
-
   const handleValueChange = (value: string) => {
-    const board = boards.find((board) => board.title === value);
+    const board = boards?.data?.find((board) => board.title === value);
     if (board) {
       router.push(`/dashboard/${board.id}`);
+    } else {
+      return ;
     }
   };
 
   return (
     <Select onValueChange={handleValueChange}>
       <SelectTrigger className="w-[120px] overflow-hidden">
-        <SelectValue placeholder={currentBoard?.title || ''} />
+        <SelectValue placeholder={title || ''} />
       </SelectTrigger>
       <SelectPortal>
         <SelectContent >
           <SelectGroup>
-            {boards
-              .filter((board) => board.id !== currentBoard.id)
-              .map((board) => {
+            {boards?.data?.map((board) => {
                 return (
-                  <SelectItem value={board.title} key={board.id}>
+                  <SelectItem value={board.title} key={board.id} disabled={board.id === currentId}>
                     {board.title}
                   </SelectItem>
                 );

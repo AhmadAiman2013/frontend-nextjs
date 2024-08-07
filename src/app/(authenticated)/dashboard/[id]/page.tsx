@@ -1,20 +1,21 @@
 "use client";
 
-import BoardNavItem from "@/components/board/BoardNavItem";
-import BoardOption from "@/components/board/BoardOption";
+import BoardIdTitle from "@/components/board/BoardIdTitle";
+
+import { Skeleton } from "@/components/ui/skeleton";
 import { useBoard } from "@/hooks/useBoard";
 import { useParams } from "next/navigation";
 
 const BoardsPage = () => {
   const { id } = useParams();
-  const { board, boards } = useBoard({ id: id as string });
+  const { board, isLoadingBoard, editingId } = useBoard({ id: id as string });
   return (
     <div className="flex flex-col space-y-3 pt-12 mb-8 w-full max-w-[990px]">
-      <div className="flex items-center gap-2">
-        {board?.data && boards?.data && (
-          <BoardNavItem boards={boards?.data} currentBoard={board?.data} />
+      <div >
+        {isLoadingBoard && <Skeleton className="w-[120px] h-[40px]"/>}
+        {board?.data && (
+          <BoardIdTitle board={board.data} id={id as string} editing={board.data.id === editingId}/>
         )}
-        <BoardOption id={id as string} />
       </div>
       {board?.data?.cards?.map((card, key) => {
         return (
