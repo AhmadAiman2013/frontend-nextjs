@@ -124,6 +124,10 @@ export const useBoard = ({ id }: BoardProps) => {
           return board;
         }) };
       });
+      queryClient.setQueryData(["board", id], (oldData : {data: BoardType[]}) => {
+        if (!oldData) return { data: newBoard.data };
+        return { data: {...oldData, title: newBoard.data.title} };
+      });
     },
   });
 
@@ -150,6 +154,7 @@ export const useBoard = ({ id }: BoardProps) => {
         if (!oldData) return { data: [] };
         return { data: oldData.data.filter((board) => board.id !== id) };
       });
+      queryClient.removeQueries({ queryKey: ["board", id] });
      }
     
   })

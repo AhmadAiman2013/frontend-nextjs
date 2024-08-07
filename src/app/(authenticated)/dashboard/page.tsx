@@ -9,7 +9,7 @@ import BoardsPopover from "@/components/board/BoardsPopover";
 import BoardInputForm from "@/components/board/BoardInput";
 
 const DashboardPage = () => {
-  const { boards, editingId, isPendingUpdate } = useBoard({});
+  const { boards, editingId } = useBoard({});
 
   return (
     <div className="mb-8 pt-12 w-full max-w-[990px]">
