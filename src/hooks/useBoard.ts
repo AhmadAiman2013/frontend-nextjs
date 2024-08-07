@@ -13,15 +13,16 @@ import { useEditingStore } from "./useStore";
 
 interface BoardProps {
   id?: string;
+  pathname?: string;
 }
 
-export const useBoard = ({ id }: BoardProps) => {
+export const useBoard = ({ id, pathname }: BoardProps) => {
   const queryClient = useQueryClient();
   const editingId = useEditingStore((state) => state.editingId);;
   const setEditingId = useEditingStore((state) => state.setEditingId);
 
   // fetch all boards
-  const { data: boards, isLoading: isLoadingBoardId } = useQuery<BoardResponse>(
+  const { data: boards, isLoading: isLoadingBoards } = useQuery<BoardResponse>(
     {
       queryKey: ["boards"],
       queryFn: async (): Promise<BoardResponse> => {
@@ -74,7 +75,7 @@ export const useBoard = ({ id }: BoardProps) => {
     staleTime: 10 * 1000,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    enabled: !!id,
+    enabled: !!id && (pathname === `/dashboard/${id}`)
   });
 
   // create board mutation
@@ -183,7 +184,7 @@ export const useBoard = ({ id }: BoardProps) => {
     updateBoard,
     deleteBoard,
     isLoadingBoard,
-    isLoadingBoardId,
+    isLoadingBoards,
     isPendingUpdate,
     isPendingDelete,
     editingId,

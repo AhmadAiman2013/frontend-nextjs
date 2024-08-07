@@ -10,7 +10,7 @@ import BoardInputForm from "@/components/board/BoardInput";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {
-  const { boards, isLoadingBoard,editingId } = useBoard({});
+  const { boards, isLoadingBoards,editingId } = useBoard({});
 
   return (
     <div className="mb-8 pt-12 w-full max-w-[990px]">
@@ -44,7 +44,7 @@ const DashboardPage = () => {
             <p>Boards</p>
           </div>
           <div className="grid grid-cols-4 md:grid-cols-5 gap-4 w-full max-w-[900px] mt-4">
-            {isLoadingBoard && (
+            {isLoadingBoards && (
               <>
                 <Skeleton className="w-[168px] h-[100px]" />
                 <Skeleton className="w-[168px] h-[100px]" />
