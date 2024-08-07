@@ -5,7 +5,7 @@ import { useBoard } from "@/hooks/useBoard";
 import { useToast } from "../ui/use-toast";
 
 const BoardOption = ({ id }: { id: string }) => {
-  const { deleteBoard, isPendingDelete, setEditingId } = useBoard({ id });
+  const { deleteBoard, isPendingDelete, isPendingUpdate, setEditingId } = useBoard({ id });
   const { toast } = useToast();
 
   const handleDelete = async () => {
@@ -41,7 +41,7 @@ const BoardOption = ({ id }: { id: string }) => {
       popoverContent={
         <div>
           <div>
-            <Button variant="ghost" size="icon" onClick={handleEdit}>
+            <Button variant="ghost" size="icon" onClick={handleEdit} disabled={isPendingUpdate}>
                 <SquarePen size={20} />
             </Button>
           </div>

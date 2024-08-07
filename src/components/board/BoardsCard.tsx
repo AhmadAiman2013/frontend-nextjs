@@ -1,4 +1,6 @@
-import { MoveUpRight } from "lucide-react";
+
+
+import { LoaderCircle, MoveUpRight } from "lucide-react";
 import Link from "next/link";
 import BoardOption from "./BoardOption";
 import BoardInputForm from "./BoardInput";
