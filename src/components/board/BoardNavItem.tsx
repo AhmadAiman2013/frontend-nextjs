@@ -7,7 +7,6 @@ import {
   SelectValue,
   SelectPortal,
 } from "@/components/ui/select";
-import { BoardType } from "@/types/Board";
 import { useRouter } from "next/navigation";
 import { useBoard } from "@/hooks/useBoard";
 
