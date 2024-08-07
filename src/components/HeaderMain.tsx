@@ -7,12 +7,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { LogOut } from "lucide-react";
 import { useState } from "react";
 
+
 const HeaderMain = ({ user }: { user: UserType }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { logout } = useAuth({});
 
   return (
     <div className="flex gap-2 items-center">
+
       <div className=" hover:text-blue-primary dark:hover:text-blue-primary">
         <Link href="/dashboard">{user?.name}</Link>
       </div>

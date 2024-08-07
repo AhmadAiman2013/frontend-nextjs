@@ -21,7 +21,7 @@ const BoardsCard = ({ id, title, editing }: BoardsCardProps) => {
           <Link href={`/dashboard/${id}`} className="flex-grow">
             <div className="overflow-hidden w-full h-full">{title}</div>
           </Link>
-          <BoardOption id={id} />
+          <BoardOption id={id} classname="opacity-5 group-hover:opacity-100"/>
         </>
       )}
       <MoveUpRight

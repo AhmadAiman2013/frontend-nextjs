@@ -7,8 +7,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-      <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)] dark:bg-[radial-gradient(circle_500px_at_50%_200px,#03032A,transparent)]">
-        <Header className="max-w-[990px]" />
+      <div className="bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#C9EBFF,transparent)] dark:bg-[radial-gradient(circle_500px_at_50%_200px,#03032A,transparent)]">
+      <Header className="max-w-[990px]" />
         <div className="sm:mx-auto flex flex-col w-full max-w-[990px]">
           <section className="flex flex-col justify-center mt-[100px] mx-auto items-center gap-3 text-center ">
             <p className="font-bold text-5xl text-blue-primary dark:text-blue-primary">

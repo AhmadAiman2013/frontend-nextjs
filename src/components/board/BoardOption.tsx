@@ -3,10 +3,18 @@ import { Button } from "../ui/button";
 import BoardsPopover from "./BoardsPopover";
 import { useBoard } from "@/hooks/useBoard";
 import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
+import clsx from "clsx";
 
-const BoardOption = ({ id }: { id: string }) => {
+interface BoardOptionProps {
+  id: string;
+  classname?: string;
+}
+
+const BoardOption = ({ id, classname }: BoardOptionProps) => {
   const { deleteBoard, isPendingDelete, isPendingUpdate, setEditingId } = useBoard({ id });
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleDelete = async () => {
     const response = await deleteBoard();
@@ -33,7 +41,7 @@ const BoardOption = ({ id }: { id: string }) => {
         <Button
           size="supericon"
           variant="ghost"
-          className="opacity-5 group-hover:opacity-100"
+          className={clsx(classname)}
         >
           <EllipsisVertical size={20} />
         </Button>
