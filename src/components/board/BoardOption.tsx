@@ -9,10 +9,11 @@ import clsx from "clsx";
 interface BoardOptionProps {
   id: string;
   classname?: string;
+  pathname: string;
 }
 
-const BoardOption = ({ id, classname }: BoardOptionProps) => {
-  const { deleteBoard, isPendingDelete, isPendingUpdate, setEditingId } = useBoard({ id });
+const BoardOption = ({ id, classname, pathname }: BoardOptionProps) => {
+  const { deleteBoard, isPendingDelete, isPendingUpdate, startEditing } = useBoard({ id });
   const { toast } = useToast();
   const router = useRouter();
 
@@ -34,7 +35,7 @@ const BoardOption = ({ id, classname }: BoardOptionProps) => {
   };
 
   const handleEdit = () => {
-    setEditingId(id);
+    startEditing({pageRoute: pathname, id: id})
   }
   return (
     <BoardsPopover

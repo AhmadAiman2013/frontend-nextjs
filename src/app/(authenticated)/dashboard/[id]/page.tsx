@@ -9,13 +9,13 @@ import { usePathname } from "next/navigation";
 const BoardsPage = () => {
   const { id } = useParams();
   const pathname = usePathname();
-  const { board, isLoadingBoard, editingId } = useBoard({ id: id as string, pathname });
+  const { board, isLoadingBoard, isEditing} = useBoard({ id: id as string, pathname });
   return (
     <div className="flex flex-col space-y-3 pt-12 mb-8 w-full max-w-[990px]">
       <div >
         {isLoadingBoard && <Skeleton className="w-[120px] h-[40px]"/>}
         {board?.data && (
-          <BoardIdTitle board={board.data} id={id as string} editing={board.data.id === editingId}/>
+          <BoardIdTitle board={board.data} id={id as string} pathname={pathname} editing={isEditing({pageRoute: pathname as string, id: id as string})}/>
         )}
       </div>
       <div>

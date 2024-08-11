@@ -19,11 +19,12 @@ interface BoardInputFormProps {
   initialValues: FormValues;
   mode: "create" | "update";
   id?: string;
+  pathname?: string
 }
 
-const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
+const BoardInputForm = ({ initialValues, mode, id, pathname }: BoardInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createBoard, updateBoard, isPendingUpdate , setEditingId} = useBoard({id});
+  const { createBoard, updateBoard, isPendingUpdate , stopEditing} = useBoard({id});
   const { toast } = useToast();
   const formRef = useRef<ElementRef<"form">>(null)
   const router = useRouter()
@@ -48,7 +49,7 @@ const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
           className: "bg-green-500",
           description: `"${response.data?.title}" board updated`,
         });
-        setEditingId("");
+        stopEditing({pageRoute: pathname as string,id: id as string});
         return;
       } else {
         response = await createBoard(value);
@@ -76,7 +77,7 @@ const BoardInputForm = ({ initialValues, mode, id }: BoardInputFormProps) => {
     const isValid = form.state.isValid
 
     if (isPristine) {
-      setEditingId("")
+      stopEditing({pageRoute: pathname as string,id: id as string});
       return ;
     }
 

@@ -8,20 +8,21 @@ import BoardInputForm from "./BoardInput";
 interface BoardsCardProps {
   id: string;
   title: string;
-  editing: boolean;
+  pathname: string;
+  editing?: boolean;
 }
 
-const BoardsCard = ({ id, title, editing }: BoardsCardProps) => {
+const BoardsCard = ({ id, title, pathname, editing }: BoardsCardProps) => {
   return (
     <div className="flex group relative bg-background w-full h-[100px] rounded-lg border border-blue-900 dark:border-blue-primary p-2 shadow-lg shadow-blue-900/40 dark:shadow-md dark:shadow-blue-primary/40 overflow-hidden transition-all duration-300 ease-out hover:scale-110 hover:text-white hover:bg-blue-primary">
       {editing ? (
-        <BoardInputForm initialValues={{ title }} mode="update" id={id} />
+        <BoardInputForm initialValues={{ title }} mode="update" id={id} pathname={pathname}/>
       ) : (
         <>
           <Link href={`/dashboard/${id}`} className="flex-grow">
             <div className="overflow-hidden w-full h-full">{title}</div>
           </Link>
-          <BoardOption id={id} classname="opacity-5 group-hover:opacity-100"/>
+          <BoardOption id={id}  pathname={pathname} classname="opacity-5 group-hover:opacity-100"/>
         </>
       )}
       <MoveUpRight

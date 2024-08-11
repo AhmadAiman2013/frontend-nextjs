@@ -7,9 +7,10 @@ interface BoardIdTitleProps {
   id: string;
   board: BoardType;
   editing: boolean;
+  pathname: string;
 }
 
-const BoardIdTitle = ({ board, id, editing }: BoardIdTitleProps) => {
+const BoardIdTitle = ({ board, id, editing, pathname }: BoardIdTitleProps) => {
   return (
     <>
       {editing ? (
@@ -18,12 +19,13 @@ const BoardIdTitle = ({ board, id, editing }: BoardIdTitleProps) => {
             initialValues={{ title: board.title }}
             mode="update"
             id={id}
+            pathname={pathname}
           />
         </div>
       ) : (
         <div className="flex items-center gap-2">
           <BoardNavItem title={board.title} currentId={id}/>
-          <BoardOption id={id} />
+          <BoardOption id={id} pathname={pathname}/>
         </div>
       )}
     </>

@@ -9,7 +9,9 @@ import { BoardType } from "@/types/Board";
 import { AxiosError } from "axios";
 import axios from "@/lib/axios";
 import { BoardData } from "@/types/schema/BoardSchema";
-import { useEditingStore } from "./useStore";
+import { useBoardStore } from "@/utils/board-store-provider";
+import { is } from "valibot";
+
 
 interface BoardProps {
   id?: string;
@@ -18,8 +20,10 @@ interface BoardProps {
 
 export const useBoard = ({ id, pathname }: BoardProps) => {
   const queryClient = useQueryClient();
-  const editingId = useEditingStore((state) => state.editingId);;
-  const setEditingId = useEditingStore((state) => state.setEditingId);
+  const { isEditing, startEditing, stopEditing} = useBoardStore(
+    (state) => state,
+  )
+
 
   // fetch all boards
   const { data: boards, isLoading: isLoadingBoards } = useQuery<BoardResponse>(
@@ -187,7 +191,8 @@ export const useBoard = ({ id, pathname }: BoardProps) => {
     isLoadingBoards,
     isPendingUpdate,
     isPendingDelete,
-    editingId,
-    setEditingId,
+    startEditing,
+    stopEditing,
+    isEditing
   };
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import BoardsCard from "@/components/board/BoardsCard";
 import { useBoard } from "@/hooks/useBoard";
 import { Calendar, CircleCheckBig, Folder, SquarePlus } from "lucide-react";
@@ -10,7 +11,8 @@ import BoardInputForm from "@/components/board/BoardInput";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {
-  const { boards, isLoadingBoards,editingId } = useBoard({});
+  const { boards, isLoadingBoards, isEditing } = useBoard({});
+  const pathname = usePathname();
 
   return (
     <div className="mb-8 pt-12 w-full max-w-[990px]">
@@ -57,7 +59,8 @@ const DashboardPage = () => {
                   key={board.id}
                   title={board.title}
                   id={board.id}
-                  editing={board.id === editingId}
+                  pathname={pathname}
+                  editing={isEditing({pageRoute: pathname, id: board.id})}
                 />
               );
             })}
