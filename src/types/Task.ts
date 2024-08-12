@@ -1,6 +1,6 @@
 export type TaskType = {
     id: string;
-    card_id : number;
+    card_id : string;
     title: string;
     order: number;
     completed: boolean;

@@ -127,9 +127,9 @@ export const useBoard = ({ id, pathname }: BoardProps) => {
           return board;
         }) };
       });
-      queryClient.setQueryData(["board", id], (oldData : {data: BoardType[]}) => {
+      queryClient.setQueryData(["board", id], (oldData : {data: BoardIdType}) => {
         if (!oldData) return { data: newBoard.data };
-        return { data: {...oldData, title: newBoard.data.title} };
+        return { data: {...oldData.data, title: newBoard.data.title} };
       });
     },
   });
