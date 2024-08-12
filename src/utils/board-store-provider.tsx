@@ -3,40 +3,40 @@
 import { type ReactNode, createContext, useRef, useContext } from 'react'
 import { useStore } from 'zustand'
 
-import { BoardStore, createBoardStore, defaultInitState } from '@/hooks/useStore'
+import { EditStore, createEditStore, defaultInitState } from '@/hooks/useStore'
 
-export type BoardStoreApi = ReturnType<typeof createBoardStore>
+export type EditStoreApi = ReturnType<typeof createEditStore>
 
-export const BoardStoreContext = createContext<BoardStoreApi | undefined>(undefined)
+export const EditStoreContext = createContext<EditStoreApi | undefined>(undefined)
 
-export interface BoardStoreProviderProps {
+export interface EditStoreProviderProps {
     children: ReactNode
   }
   
-  export const BoardStoreProvider = ({
+  export const EditStoreProvider = ({
     children,
-  }: BoardStoreProviderProps) => {
-    const storeRef = useRef<BoardStoreApi>()
+  }: EditStoreProviderProps) => {
+    const storeRef = useRef<EditStoreApi>()
     if (!storeRef.current) {
-      storeRef.current = createBoardStore(defaultInitState)
+      storeRef.current = createEditStore(defaultInitState)
     }
   
     return (
-      <BoardStoreContext.Provider value={storeRef.current}>
+      <EditStoreContext.Provider value={storeRef.current}>
         {children}
-      </BoardStoreContext.Provider>
+      </EditStoreContext.Provider>
     )
   }
 
 
-export const useBoardStore = <T,>(
-    selector: (store: BoardStore) => T
+export const useEditStore = <T,>(
+    selector: (store: EditStore) => T
   ): T => {
-    const boardStoreContext = useContext(BoardStoreContext)
+    const editStoreContext = useContext(EditStoreContext)
   
-    if (!boardStoreContext) {
-      throw new Error(`useBoardStore must be used within BoardStoreProvider`)
+    if (!editStoreContext) {
+      throw new Error(`useEditStore must be used within BoardStoreProvider`)
     }
   
-    return useStore(boardStoreContext, selector)
+    return useStore(editStoreContext, selector)
   }

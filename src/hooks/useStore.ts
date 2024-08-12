@@ -1,7 +1,7 @@
 import { createStore } from "zustand/vanilla";
 
 
-export type BoardState = {
+export type State = {
     editingStates: {
         [pageRoute: string]: {
             [boardId: string]: boolean;
@@ -9,20 +9,20 @@ export type BoardState = {
     };
 }
 
-export type BoardsActions = {
+export type Actions = {
     startEditing: (args: { pageRoute: string, id: string }) => void;
     stopEditing: (args: { pageRoute: string, id: string }) => void;
     isEditing: (args: { pageRoute: string, id: string }) => boolean;
 }
 
-export type BoardStore = BoardState & BoardsActions
+export type EditStore = State & Actions
 
-export const defaultInitState: BoardState = {
+export const defaultInitState: State = {
     editingStates: {},
 }
 
-export const createBoardStore = (initState: BoardState = defaultInitState) => {
-    return createStore<BoardStore>()((set, get) => ({
+export const createEditStore = (initState: State = defaultInitState) => {
+    return createStore<EditStore>()((set, get) => ({
         ...initState,
         startEditing: ({ pageRoute, id}) => set((state) => ({
             editingStates: {

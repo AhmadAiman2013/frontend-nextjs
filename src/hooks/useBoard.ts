@@ -9,9 +9,7 @@ import { BoardType } from "@/types/Board";
 import { AxiosError } from "axios";
 import axios from "@/lib/axios";
 import { BoardData } from "@/types/schema/BoardSchema";
-import { useBoardStore } from "@/utils/board-store-provider";
-import { is } from "valibot";
-
+import { useEditStore } from "@/utils/board-store-provider";
 
 interface BoardProps {
   id?: string;
@@ -20,7 +18,7 @@ interface BoardProps {
 
 export const useBoard = ({ id, pathname }: BoardProps) => {
   const queryClient = useQueryClient();
-  const { isEditing, startEditing, stopEditing} = useBoardStore(
+  const { isEditing, startEditing, stopEditing} = useEditStore(
     (state) => state,
   )
 
