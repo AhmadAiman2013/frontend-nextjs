@@ -1,22 +1,21 @@
-'use client'
+"use client";
 
 import clsx from "clsx";
 import ApplicationLogo from "../ApplicationLogo";
 import { ModeToggle } from "../theme-toogle";
 import HeaderUser from "../HeaderUser";
 import HeaderMain from "../HeaderMain";
+import { Skeleton } from "../ui/skeleton";
 
 import Link from "next/link";
 import { useAuth } from "@/hooks/useAuth";
-
 
 interface HeaderProps {
   className?: string;
 }
 
 const Header = ({ className }: HeaderProps) => {
-  const { user } = useAuth({})
-
+  const { user, isLoading } = useAuth({});
 
   return (
     <div
@@ -34,9 +33,14 @@ const Header = ({ className }: HeaderProps) => {
         <h1 className="ml-2 font-bold">CORET</h1>
       </Link>
       <div className="flex gap-3 items-center">
-        { user ? <HeaderMain user={user}/> : <HeaderUser />}
-
-        <ModeToggle />
+        {isLoading ? (
+          <Skeleton className="h-8 w-40 rounded-lg" />
+        ) : (
+          <>
+            {user ? <HeaderMain user={user} /> : <HeaderUser />}
+            <ModeToggle />
+          </>
+        )}
       </div>
     </div>
   );

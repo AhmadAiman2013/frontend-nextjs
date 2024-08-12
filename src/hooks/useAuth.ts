@@ -18,7 +18,7 @@ export const useAuth = ({middleware, redirectIfAuthenticated, redirectIfNotAuthe
   const queryClient = useQueryClient();
 
  
-  const { data: user, error } = useQuery({
+  const { data: user, error, isLoading } = useQuery({
     queryKey: ["user"],
     queryFn: async () =>{
       try {
@@ -172,6 +172,7 @@ export const useAuth = ({middleware, redirectIfAuthenticated, redirectIfNotAuthe
   return {
     user,
     error,
+    isLoading,
     register,
     login,
     loginGoogle,

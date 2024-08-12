@@ -46,25 +46,28 @@ const DashboardPage = () => {
             <p>Boards</p>
           </div>
           <div className="grid grid-cols-4 md:grid-cols-5 gap-4 w-full max-w-[900px] mt-4">
-            {isLoadingBoards && (
+            {isLoadingBoards ? (
               <>
                 <Skeleton className="w-[168px] h-[100px]" />
                 <Skeleton className="w-[168px] h-[100px]" />
                 <Skeleton className="w-[168px] h-[100px]" />
               </>
+            ) : (
+              <>
+                {boards?.data?.map((board) => {
+                  return (
+                    <BoardsCard
+                      key={board.id}
+                      title={board.title}
+                      id={board.id}
+                      pathname={pathname}
+                      editing={isEditing({ pageRoute: pathname, id: board.id })}
+                    />
+                  );
+                })}
+                <BoardsCreate />
+              </>
             )}
-            {boards?.data?.map((board) => {
-              return (
-                <BoardsCard
-                  key={board.id}
-                  title={board.title}
-                  id={board.id}
-                  pathname={pathname}
-                  editing={isEditing({pageRoute: pathname, id: board.id})}
-                />
-              );
-            })}
-            <BoardsCreate />
           </div>
         </section>
       </div>

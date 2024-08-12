@@ -35,7 +35,7 @@ export const useBoardStore = <T,>(
     const boardStoreContext = useContext(BoardStoreContext)
   
     if (!boardStoreContext) {
-      throw new Error(`useEditingStore must be used within EditingStoreProvider`)
+      throw new Error(`useBoardStore must be used within BoardStoreProvider`)
     }
   
     return useStore(boardStoreContext, selector)
