@@ -7,3 +7,8 @@ export type TaskType = {
     created_at: Date;
     updated_at: Date;
 }
+
+export interface TaskResponse {
+    data?: TaskType
+    error?: string
+}

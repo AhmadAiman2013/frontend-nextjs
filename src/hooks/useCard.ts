@@ -55,8 +55,8 @@ export const useCard = ({ id }: { id?: string }) => {
         const response = await axios.put<{data : CardType}>(`/api/boards/${data.boardId}/cards/${id}`, data);
         return {data: response.data.data};
     },
-    onSuccess: (newCard, variables) => {
-        queryClient.setQueryData(["board", variables.boardId], (oldData : {data : BoardIdType}) => {
+    onSuccess: (newCard) => {
+        queryClient.setQueryData(["board", newCard.data.boards_id], (oldData : {data : BoardIdType}) => {
             if (!oldData) return { data: { cards: [newCard.data] } };
             return {
                 data: {
