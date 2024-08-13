@@ -4,9 +4,13 @@ import { CardResponse, CardType } from "@/types/Card";
 import { CardData } from "@/types/schema/CardSchema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useEditStore } from "@/utils/board-store-provider";
 
 export const useCard = ({ id }: { id?: string }) => {
   const queryClient = useQueryClient();
+  const { isEditingCard, startEditingCard, stopEditingCard } = useEditStore(
+    (state) => state
+  );
 
   // create card mutation
   const { mutateAsync: createCardMutation, isPending: isPendingCreate } =
@@ -132,6 +136,9 @@ export const useCard = ({ id }: { id?: string }) => {
     deleteCard,
     isPendingCreate,
     isPendingUpdate,
-    isPendingDelete
+    isPendingDelete,
+    startEditingCard,
+    stopEditingCard,
+    isEditingCard
   };
 };

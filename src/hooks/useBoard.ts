@@ -18,7 +18,7 @@ interface BoardProps {
 
 export const useBoard = ({ id, pathname }: BoardProps) => {
   const queryClient = useQueryClient();
-  const { isEditing, startEditing, stopEditing} = useEditStore(
+  const { isEditingBoard, startEditingBoard, stopEditingBoard} = useEditStore(
     (state) => state,
   )
 
@@ -189,8 +189,8 @@ export const useBoard = ({ id, pathname }: BoardProps) => {
     isLoadingBoards,
     isPendingUpdate,
     isPendingDelete,
-    startEditing,
-    stopEditing,
-    isEditing
+    startEditingBoard,
+    stopEditingBoard,
+    isEditingBoard
   };
 };

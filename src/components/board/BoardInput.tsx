@@ -24,7 +24,7 @@ interface BoardInputFormProps {
 
 const BoardInputForm = ({ initialValues, mode, id, pathname }: BoardInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createBoard, updateBoard, isPendingUpdate , stopEditing} = useBoard({id});
+  const { createBoard, updateBoard, isPendingUpdate , stopEditingBoard} = useBoard({id});
   const { toast } = useToast();
   const formRef = useRef<ElementRef<"form">>(null)
   const router = useRouter()
@@ -49,7 +49,7 @@ const BoardInputForm = ({ initialValues, mode, id, pathname }: BoardInputFormPro
           className: "bg-green-500",
           description: `"${response.data?.title}" board updated`,
         });
-        stopEditing({pageRoute: pathname as string,id: id as string});
+        stopEditingBoard({pageRoute: pathname as string,id: id as string});
         return;
       } else {
         response = await createBoard(value);
@@ -77,7 +77,7 @@ const BoardInputForm = ({ initialValues, mode, id, pathname }: BoardInputFormPro
     const isValid = form.state.isValid
 
     if (isPristine) {
-      stopEditing({pageRoute: pathname as string,id: id as string});
+      stopEditingBoard({pageRoute: pathname as string,id: id as string});
       return ;
     }
 

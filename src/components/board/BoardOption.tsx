@@ -13,7 +13,7 @@ interface BoardOptionProps {
 }
 
 const BoardOption = ({ id, classname, pathname }: BoardOptionProps) => {
-  const { deleteBoard, isPendingDelete, isPendingUpdate, startEditing } = useBoard({ id });
+  const { deleteBoard, isPendingDelete, isPendingUpdate, startEditingBoard } = useBoard({ id });
   const { toast } = useToast();
   const router = useRouter();
 
@@ -35,7 +35,7 @@ const BoardOption = ({ id, classname, pathname }: BoardOptionProps) => {
   };
 
   const handleEdit = () => {
-    startEditing({pageRoute: pathname, id: id})
+    startEditingBoard({pageRoute: pathname, id: id})
   }
   return (
     <BoardsPopover

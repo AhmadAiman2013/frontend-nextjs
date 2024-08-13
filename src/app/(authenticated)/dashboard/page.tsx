@@ -11,7 +11,7 @@ import BoardInputForm from "@/components/board/BoardInput";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {
-  const { boards, isLoadingBoards, isEditing } = useBoard({});
+  const { boards, isLoadingBoards, isEditingBoard } = useBoard({});
   const pathname = usePathname();
 
   return (
@@ -61,7 +61,7 @@ const DashboardPage = () => {
                       title={board.title}
                       id={board.id}
                       pathname={pathname}
-                      editing={isEditing({ pageRoute: pathname, id: board.id })}
+                      editing={isEditingBoard({ pageRoute: pathname, id: board.id })}
                     />
                   );
                 })}

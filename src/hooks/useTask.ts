@@ -4,7 +4,7 @@ import { TaskData } from "@/types/schema/TaskSchema";
 import { TaskResponse, TaskType } from "@/types/Task";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { is } from "valibot";
+import { useEditStore } from "@/utils/board-store-provider";
 
 interface TaskProps {
   boardId?: string;
@@ -14,6 +14,10 @@ interface TaskProps {
 // create task mutation
 export const useTask = ({ boardId, id }: TaskProps) => {
   const queryClient = useQueryClient();
+  const { isEditingTask, startEditingTask, stopEditingTask } = useEditStore(
+    (state) => state
+  );
+  
 
   const { mutateAsync: createTaksMutation, isPending : isPendingCreate } = useMutation({
     mutationFn: async (data: TaskData) => {
@@ -149,6 +153,9 @@ export const useTask = ({ boardId, id }: TaskProps) => {
     deleteTask,
     isPendingCreate,
     isPendingUpdate,
-    isPendingDelete
+    isPendingDelete,
+    startEditingTask,
+    stopEditingTask,
+    isEditingTask,
   }
 };

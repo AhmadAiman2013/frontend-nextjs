@@ -2,49 +2,97 @@ import { createStore } from "zustand/vanilla";
 
 
 export type State = {
-    editingStates: {
+    boardEditingStates: {
         [pageRoute: string]: {
             [boardId: string]: boolean;
         }
     };
+    cardEditingStates: {
+        [cardId: string]: boolean;
+    };
+    taskEditingStates: {
+        [taskId: string]: boolean;
+    }
 }
 
 export type Actions = {
-    startEditing: (args: { pageRoute: string, id: string }) => void;
-    stopEditing: (args: { pageRoute: string, id: string }) => void;
-    isEditing: (args: { pageRoute: string, id: string }) => boolean;
+    startEditingBoard: (args: { pageRoute: string, id: string }) => void;
+    stopEditingBoard: (args: { pageRoute: string, id: string }) => void;
+    isEditingBoard: (args: { pageRoute: string, id: string }) => boolean;
+
+    startEditingCard: (id: string) => void;
+    stopEditingCard: (id: string) => void;
+    isEditingCard: (id: string) => boolean;
+
+    startEditingTask: (id: string) => void;
+    stopEditingTask: (id: string) => void;
+    isEditingTask: (id: string) => boolean;
 }
 
 export type EditStore = State & Actions
 
 export const defaultInitState: State = {
-    editingStates: {},
+    boardEditingStates: {},
+    cardEditingStates: {},
+    taskEditingStates: {},
 }
 
 export const createEditStore = (initState: State = defaultInitState) => {
     return createStore<EditStore>()((set, get) => ({
         ...initState,
-        startEditing: ({ pageRoute, id}) => set((state) => ({
-            editingStates: {
-                ...state.editingStates,
+
+        // board
+        startEditingBoard: ({ pageRoute, id}) => set((state) => ({
+            boardEditingStates: {
+                ...state.boardEditingStates,
                 [pageRoute]: {
-                    ...state.editingStates[pageRoute],
+                    ...state.boardEditingStates[pageRoute],
                     [id]: true,
                 }
             }
         })),
-        stopEditing: ({ pageRoute, id}) => set((state) => ({
-            editingStates: {
-                ...state.editingStates,
+        stopEditingBoard: ({ pageRoute, id}) => set((state) => ({
+            boardEditingStates: {
+                ...state.boardEditingStates,
                 [pageRoute]: {
-                    ...state.editingStates[pageRoute],
+                    ...state.boardEditingStates[pageRoute],
                     [id]: false,
                 }
             }
         })),
-        isEditing: ({ pageRoute, id}) => {
-            const state = get().editingStates;
+        isEditingBoard: ({ pageRoute, id}) => {
+            const state = get().boardEditingStates;
             return state[pageRoute] && state[pageRoute][id];
         },
+
+        // card
+        startEditingCard: (id) => set((state) => ({
+            cardEditingStates: {
+                ...state.cardEditingStates,
+                [id]: true,
+            }
+        })),
+        stopEditingCard: (id) => set((state) => ({
+            cardEditingStates: {
+                ...state.cardEditingStates,
+                [id]: false,
+            }
+        })),
+        isEditingCard: (id) => get().cardEditingStates[id],
+
+        // task
+        startEditingTask: (id) => set((state) => ({
+            taskEditingStates: {
+                ...state.taskEditingStates,
+                [id]: true,
+            }
+        })),
+        stopEditingTask: (id) => set((state) => ({
+            taskEditingStates: {
+                ...state.taskEditingStates,
+                [id]: false,
+            }
+        })),
+        isEditingTask: (id) => get().taskEditingStates[id],
     }))
 }
