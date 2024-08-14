@@ -1,6 +1,7 @@
 "use client";
 
 import BoardIdTitle from "@/components/board/BoardIdTitle";
+import CardCreate from "@/components/card/CardCreate";
 import CardItem from "@/components/card/CardItem";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBoard } from "@/hooks/useBoard";
@@ -42,7 +43,7 @@ const BoardsPage = () => {
             {board?.data?.cards?.map((card, key) => {
               return <CardItem key={key} card={card} />;
             })}
-            <div>create some task!</div>
+            <CardCreate />
           </>
         )}
       </div>
