@@ -31,11 +31,20 @@ const BoardsPage = () => {
         )}
       </div>
       <div className="grid grid-cols-4 gap-3">
-        {isLoadingBoard && <Skeleton className="w-[120px] h-[40px]" />}
-        {board?.data?.cards?.map((card, key) => {
-          return <CardItem key={key} card={card} />;
-        })}
-        <div>create some task!</div>
+        {isLoadingBoard ? (
+          <>
+            <Skeleton className="w-[238px] h-[150px]" />
+            <Skeleton className="w-[238px] h-[150px]" />
+            <Skeleton className="w-[238px] h-[150px]" />
+          </>
+        ) : (
+          <>
+            {board?.data?.cards?.map((card, key) => {
+              return <CardItem key={key} card={card} />;
+            })}
+            <div>create some task!</div>
+          </>
+        )}
       </div>
     </div>
   );
