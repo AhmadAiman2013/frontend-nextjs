@@ -95,7 +95,7 @@ export const useAuth = ({middleware, redirectIfAuthenticated, redirectIfNotAuthe
 
  
   // logout mutation
-  const logoutMutation = useMutation({
+  const {mutateAsync: logoutMutation, isPending : isPendingLogout} = useMutation({
     mutationFn: async () => {
       await axios.post('/logout')
     },
@@ -110,7 +110,7 @@ export const useAuth = ({middleware, redirectIfAuthenticated, redirectIfNotAuthe
 
   // // logout
   const logout = async () => {
-      await logoutMutation.mutateAsync();
+      await logoutMutation();
   };
 
 
@@ -180,5 +180,6 @@ export const useAuth = ({middleware, redirectIfAuthenticated, redirectIfNotAuthe
     resetPassword,
     resendEmailVerification,
     logout,
+    isPendingLogout,
   }
 }

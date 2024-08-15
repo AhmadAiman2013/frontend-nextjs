@@ -6,19 +6,19 @@ import { useBoard } from "@/hooks/useBoard";
 import { Calendar, CircleCheckBig, Folder, SquarePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BoardsCreate from "@/components/board/BoardsCreate";
-import BoardsPopover from "@/components/board/BoardsPopover";
 import BoardInputForm from "@/components/board/BoardInput";
+import PopoverElement from "@/components/PopoverElement";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {
-  const { boards, isLoadingBoards, isEditingBoard } = useBoard({});
+  const { boards, isLoadingBoards, isEditingBoard, createBoard, updateBoard, stopEditingBoard } = useBoard({});
   const pathname = usePathname();
 
   return (
     <div className="mb-8 pt-12 w-full max-w-[990px]">
       <div className="flex gap-1 items-center">
         <p className="text-2xl font-semibold">What do you plan to do today?</p>
-        <BoardsPopover
+        <PopoverElement
           triggerElement={
             <Button variant="ghost" size="icon">
               <SquarePlus size={20} />

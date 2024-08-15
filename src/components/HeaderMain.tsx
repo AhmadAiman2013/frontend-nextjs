@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const HeaderMain = ({ user }: { user: UserType }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { logout } = useAuth({});
+  const { logout, isPendingLogout } = useAuth({});
 
   return (
     <div className="flex gap-2 items-center">
@@ -29,7 +29,7 @@ const HeaderMain = ({ user }: { user: UserType }) => {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-15 p-1">
-          <Button onClick={logout} variant="ghost">
+          <Button onClick={logout} variant="ghost" disabled={isPendingLogout}>
             <LogOut className="mr-2 h-3 w-4" />
             <span>Log out</span>
           </Button>

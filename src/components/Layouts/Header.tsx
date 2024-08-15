@@ -15,7 +15,7 @@ interface HeaderProps {
 }
 
 const Header = ({ className }: HeaderProps) => {
-  const { user, isLoading } = useAuth({});
+  const { user} = useAuth({});
 
   return (
     <div
@@ -33,14 +33,8 @@ const Header = ({ className }: HeaderProps) => {
         <h1 className="ml-2 font-bold">CORET</h1>
       </Link>
       <div className="flex gap-3 items-center">
-        {isLoading ? (
-          <Skeleton className="h-8 w-40 rounded-lg" />
-        ) : (
-          <>
-            {user ? <HeaderMain user={user} /> : <HeaderUser />}
-            <ModeToggle />
-          </>
-        )}
+        {user ? <HeaderMain user={user} /> : <HeaderUser />}
+        <ModeToggle />
       </div>
     </div>
   );
