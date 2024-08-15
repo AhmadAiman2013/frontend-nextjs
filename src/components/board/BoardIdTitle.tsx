@@ -21,6 +21,7 @@ const BoardIdTitle = ({ board, id, editing, pathname }: BoardIdTitleProps) => {
             id={id}
             pathname={pathname}
           />
+          
         </div>
       ) : (
         <div className="flex items-center gap-2">

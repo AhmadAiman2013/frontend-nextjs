@@ -1,6 +1,6 @@
 import { EllipsisVertical, SquarePen, Trash } from "lucide-react";
 import { Button } from "../ui/button";
-import BoardsPopover from "./BoardsPopover";
+import PopoverElement from "../PopoverElement";
 import { useBoard } from "@/hooks/useBoard";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -38,7 +38,7 @@ const BoardOption = ({ id, classname, pathname }: BoardOptionProps) => {
     startEditingBoard({pageRoute: pathname, id: id})
   }
   return (
-    <BoardsPopover
+    <PopoverElement
       triggerElement={
         <Button
           size="supericon"

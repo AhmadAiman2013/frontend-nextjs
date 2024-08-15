@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 const BoardsPage = () => {
   const { id } = useParams();
   const pathname = usePathname();
-  const { board, isLoadingBoard, isEditingBoard } = useBoard({
+  const { board, isLoadingBoard, isEditingBoard} = useBoard({
     id: id as string,
     pathname,
   });
@@ -28,6 +28,7 @@ const BoardsPage = () => {
               pageRoute: pathname as string,
               id: id as string,
             })}
+            
           />
         )}
       </div>

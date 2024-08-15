@@ -20,13 +20,13 @@ export type Actions = {
     stopEditingBoard: (args: { pageRoute: string, id: string }) => void;
     isEditingBoard: (args: { pageRoute: string, id: string }) => boolean;
 
-    startEditingCard: (id: string) => void;
-    stopEditingCard: (id: string) => void;
-    isEditingCard: (id: string) => boolean;
+    startEditingCard: (args : {id: string}) => void;
+    stopEditingCard: (args : {id: string}) => void;
+    isEditingCard: (args : {id: string}) => boolean;
 
-    startEditingTask: (id: string) => void;
-    stopEditingTask: (id: string) => void;
-    isEditingTask: (id: string) => boolean;
+    startEditingTask: (args : {id: string}) => void;
+    stopEditingTask: (args : {id: string}) => void;
+    isEditingTask: (args : {id: string}) => boolean;
 }
 
 export type EditStore = State & Actions
@@ -66,33 +66,33 @@ export const createEditStore = (initState: State = defaultInitState) => {
         },
 
         // card
-        startEditingCard: (id) => set((state) => ({
+        startEditingCard: ({id}) => set((state) => ({
             cardEditingStates: {
                 ...state.cardEditingStates,
                 [id]: true,
             }
         })),
-        stopEditingCard: (id) => set((state) => ({
+        stopEditingCard: ({id}) => set((state) => ({
             cardEditingStates: {
                 ...state.cardEditingStates,
                 [id]: false,
             }
         })),
-        isEditingCard: (id) => get().cardEditingStates[id],
+        isEditingCard: ({id}) => get().cardEditingStates[id],
 
         // task
-        startEditingTask: (id) => set((state) => ({
+        startEditingTask: ({id}) => set((state) => ({
             taskEditingStates: {
                 ...state.taskEditingStates,
                 [id]: true,
             }
         })),
-        stopEditingTask: (id) => set((state) => ({
+        stopEditingTask: ({id}) => set((state) => ({
             taskEditingStates: {
                 ...state.taskEditingStates,
                 [id]: false,
             }
         })),
-        isEditingTask: (id) => get().taskEditingStates[id],
+        isEditingTask: ({id}) => get().taskEditingStates[id],
     }))
 }
