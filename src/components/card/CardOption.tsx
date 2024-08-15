@@ -3,15 +3,14 @@ import { Button } from "../ui/button";
 import PopoverElement from "../PopoverElement";
 import { useCard } from "@/hooks/useCard";
 import { useToast } from "../ui/use-toast";
-import clsx from "clsx";
+
 
 interface CardOptionProps {
   id: string;
-  classname?: string;
   boardId: string;
 }
 
-const CardOption = ({ id, boardId, classname }: CardOptionProps) => {
+const CardOption = ({ id, boardId}: CardOptionProps) => {
   const { deleteCard, isPendingDelete, isPendingUpdate, startEditingCard } =
     useCard({ id });
   const { toast } = useToast();
@@ -39,7 +38,7 @@ const CardOption = ({ id, boardId, classname }: CardOptionProps) => {
   return (
     <PopoverElement
       triggerElement={
-        <Button size="supericon" variant="ghost" className={clsx(classname)}>
+        <Button size="supericon" variant="ghost" >
           <EllipsisVertical size={20} />
         </Button>
       }

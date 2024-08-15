@@ -96,17 +96,24 @@ export const useCard = ({ id }: { id?: string }) => {
   //delete card mutation
   const { mutateAsync: deleteCardMutation, isPending: isPendingDelete } =
     useMutation({
-      mutationFn: async (boardId: Pick<CardData, "boardId">) =>
-        await axios.delete(`/api/boards/${boardId}/cards/${id}`),
+      mutationFn: async (boardId: Pick<CardData, "boardId">) => {
+        await axios.delete(`/api/boards/${boardId.boardId}/cards/${id}`)
+      },
       onSuccess: (_, variables) => {
         queryClient.setQueryData(
           ["board", variables.boardId],
           (oldData: { data: BoardIdType }) => {
             if (!oldData) return;
+            const deletedCardOrder = oldData.data.cards.find((card) => card.id === id)?.order || 0;
             return {
               data: {
                 ...oldData.data,
-                cards: oldData.data.cards.filter((card) => card.id !== id),
+                cards: oldData.data.cards
+                  .filter((card) => card.id !== id)
+                  .map((card) => ({
+                    ...card,
+                    order: card.order > deletedCardOrder ? card.order - 1 : card.order,
+                  })),
               },
             };
           }
@@ -119,6 +126,7 @@ export const useCard = ({ id }: { id?: string }) => {
       await deleteCardMutation(boardId);
     } catch (error) {
       console.error("delete card failed");
+      console.log(error);
       if (error instanceof AxiosError && error.response) {
         return {
           error: error.response.data.message || "An unexpected error occurred",

@@ -6,7 +6,7 @@ const CardHeaderWrapper = ({card} : {card : CardType}) => {
   return (
     <div className="group flex justify-between">
         <CardHeader title={card.title} />
-        <CardOption id={card.id} boardId={card.boards_id} classname="opacity-5 group-hover:opacity-100"/>
+        <CardOption id={card.id} boardId={card.boards_id} />
     </div>
   )
 }

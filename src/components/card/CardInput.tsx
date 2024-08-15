@@ -43,8 +43,7 @@ const CardInput = ({
     validatorAdapter: valibotValidator(),
     onSubmit: async ({ value }) => {
       let response;
-      let cacheData = queryClient.getQueryData<{data: BoardIdType}>(["board", boardId])
-      let newValue = {...value, boardId: boardId, order: (cacheData?.data?.cards?.length ?? 0) + 1}
+      let newValue = {...value, boardId}
 
       if (mode === "update") {
         response = await updateCard(newValue);
