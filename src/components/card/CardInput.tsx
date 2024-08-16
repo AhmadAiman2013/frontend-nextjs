@@ -2,15 +2,14 @@ import { useForm } from "@tanstack/react-form";
 import { valibotValidator } from "@tanstack/valibot-form-adapter";
 import { CardDataSchema } from "@/types/schema/CardSchema";
 import { useCard } from "@/hooks/useCard";
-import { ElementRef, use, useRef, useState } from "react";
+import { ElementRef, useRef, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { LoaderCircle } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { useOnClickOutside } from "usehooks-ts";
-import { useQueryClient } from "@tanstack/react-query";
-import { BoardIdType } from "@/types/Board";
+import { on } from "events";
 
 interface FormValues {
   title: string;
@@ -21,22 +20,22 @@ interface CardInputFormProps {
   mode: "create" | "update";
   id?: string;
   boardId: string;
-  pathname?: string;
+  onCreateComplete?: () => void;
 }
 const CardInput = ({
   initialValues,
   mode,
   id,
-  pathname,
-  boardId
+  boardId,
+  onCreateComplete
 }: CardInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createCard, updateCard, isPendingUpdate, stopEditingCard } = useCard({
+  const { createCard,isPendingCreate , updateCard, isPendingUpdate, stopEditingCard } = useCard({
     id,
   });
   const { toast } = useToast();
   const formRef = useRef<ElementRef<"form">>(null);
-  const queryClient = useQueryClient();
+ 
 
   const form = useForm({
     defaultValues: initialValues,
@@ -77,6 +76,9 @@ const CardInput = ({
           className: "bg-green-500",
           description: `"${response.data?.title}" card created`,
         });
+        if (onCreateComplete) {
+          onCreateComplete();
+        }
         form.reset();
       }
     },
@@ -89,6 +91,9 @@ const CardInput = ({
 
     if (isPristine) {
       stopEditingCard({id: id as string});
+      if (onCreateComplete) {
+        onCreateComplete();
+      }
       return ;
     }
 
@@ -132,7 +137,7 @@ const CardInput = ({
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    disabled={isPendingUpdate}
+                    disabled={isPendingUpdate || isPendingCreate}
                     className="mt-1 w-full p-3 "
                   />
                   {mode === "create" && (

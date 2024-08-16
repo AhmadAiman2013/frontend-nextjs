@@ -1,14 +1,34 @@
-import { CardType } from "@/types/Card"
-import CardHeader from "./CardHeader"
-import CardOption from "./CardOption"
+import { CardType } from "@/types/Card";
+import CardHeader from "./CardHeader";
+import CardOption from "./CardOption";
+import CardInput from "./CardInput";
 
-const CardHeaderWrapper = ({card} : {card : CardType}) => {
-  return (
-    <div className="group flex justify-between">
-        <CardHeader title={card.title} />
-        <CardOption id={card.id} boardId={card.boards_id} />
-    </div>
-  )
+interface CardHeaderWrapperProps {
+  card: CardType;
+  editing?: boolean;
 }
 
-export default CardHeaderWrapper
+const CardHeaderWrapper = ({
+  card,
+  editing,
+}: CardHeaderWrapperProps) => {
+  return (
+    <div>
+      {editing ? (
+        <CardInput
+          initialValues={{ title: card.title }}
+          mode="update"
+          id={card.id}
+          boardId={card.boards_id}
+        />
+      ) : (
+        <div className="group flex justify-between">
+          <CardHeader title={card.title} />
+          <CardOption id={card.id} boardId={card.boards_id} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CardHeaderWrapper;

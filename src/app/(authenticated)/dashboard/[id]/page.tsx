@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 const BoardsPage = () => {
   const { id } = useParams();
   const pathname = usePathname();
-  const { board, isLoadingBoard, isEditingBoard} = useBoard({
+  const { board, isLoadingBoard, isEditingBoard, startEditingBoard } = useBoard({
     id: id as string,
     pathname,
   });
@@ -42,7 +42,7 @@ const BoardsPage = () => {
         ) : (
           <>
             {board?.data?.cards?.map((card, key) => {
-              return <CardItem key={key} card={card} />;
+              return <CardItem key={key} card={card} pathname={pathname}/>;
             })}
             <CardCreate boardId={id as string}/>
           </>
