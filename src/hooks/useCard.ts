@@ -54,28 +54,35 @@ export const useCard = ({ id }: { id?: string }) => {
     }
   };
   // update card mutation
-  const { mutateAsync: updateCardMutation, isPending : isPendingUpdate } = useMutation({
-    mutationFn: async (data: CardData) => {
-        const response = await axios.put<{data : CardType}>(`/api/boards/${data.boardId}/cards/${id}`, data);
-        return {data: response.data.data};
-    },
-    onSuccess: (newCard) => {
-        queryClient.setQueryData(["board", newCard.data.boards_id], (oldData : {data : BoardIdType}) => {
+  const { mutateAsync: updateCardMutation, isPending: isPendingUpdate } =
+    useMutation({
+      mutationFn: async (data: CardData) => {
+        const response = await axios.put<{ data: CardType }>(
+          `/api/boards/${data.boardId}/cards/${id}`,
+          data
+        );
+        return { data: response.data.data };
+      },
+      onSuccess: (newCard) => {
+        queryClient.setQueryData(
+          ["board", newCard.data.boards_id],
+          (oldData: { data: BoardIdType }) => {
             if (!oldData) return { data: { cards: [newCard.data] } };
             return {
-                data: {
-                    ...oldData.data,
-                    cards: oldData.data.cards.map((card) => {
-                        if (card.id === id) {
-                            return newCard.data;
-                        }
-                        return card;
-                    }),
-                },
+              data: {
+                ...oldData.data,
+                cards: oldData.data.cards.map((card) => {
+                  if (card.id === id) {
+                    return newCard.data;
+                  }
+                  return card;
+                }),
+              },
             };
-        });
-    }
-  })
+          }
+        );
+      },
+    });
   // update
   const updateCard = async (data: CardData): Promise<CardResponse> => {
     try {
@@ -91,20 +98,21 @@ export const useCard = ({ id }: { id?: string }) => {
         error: "An unexpected error occurred",
       };
     }
-  }
+  };
 
   //delete card mutation
   const { mutateAsync: deleteCardMutation, isPending: isPendingDelete } =
     useMutation({
       mutationFn: async (boardId: Pick<CardData, "boardId">) => {
-        await axios.delete(`/api/boards/${boardId.boardId}/cards/${id}`)
+        await axios.delete(`/api/boards/${boardId.boardId}/cards/${id}`);
       },
       onSuccess: (_, variables) => {
         queryClient.setQueryData(
           ["board", variables.boardId],
           (oldData: { data: BoardIdType }) => {
             if (!oldData) return;
-            const deletedCardOrder = oldData.data.cards.find((card) => card.id === id)?.order || 0;
+            const deletedCardOrder =
+              oldData.data.cards.find((card) => card.id === id)?.order || 0;
             return {
               data: {
                 ...oldData.data,
@@ -112,7 +120,10 @@ export const useCard = ({ id }: { id?: string }) => {
                   .filter((card) => card.id !== id)
                   .map((card) => ({
                     ...card,
-                    order: card.order > deletedCardOrder ? card.order - 1 : card.order,
+                    order:
+                      card.order > deletedCardOrder
+                        ? card.order - 1
+                        : card.order,
                   })),
               },
             };
@@ -147,6 +158,6 @@ export const useCard = ({ id }: { id?: string }) => {
     isPendingDelete,
     startEditingCard,
     stopEditingCard,
-    isEditingCard
+    isEditingCard,
   };
 };
