@@ -27,6 +27,34 @@ export const useTask = ({ boardId, id }: TaskProps) => {
         );
         return { data: response.data.data };
       },
+      onMutate: async (newTask : TaskData) => {
+        await queryClient.cancelQueries({ queryKey: ["board", boardId] });
+
+        const previousBoard = queryClient.getQueryData<{data: BoardIdType}>(["board", boardId]);
+
+        queryClient.setQueryData(["board", boardId], (oldData: { data: BoardIdType }) => {
+          if (!oldData) return { data: { cards: [{ id: newTask.cardId, tasks: [{
+            id: 'temp-id',
+            card_id: newTask.cardId,
+            ...newTask,
+          }] }] } };
+          const newCards = oldData.data.cards.map((card) => {
+            if (card.id === newTask.cardId) {
+              return {
+                ...card,
+                tasks: [...card.tasks, {id: 'temp-id', card_id: newTask.cardId, ...newTask}],
+              };
+            }
+            return card;
+          });
+          return { data: { cards: newCards } };
+        });
+
+        return { previousBoard };
+      },
+      onError: (error, variables, context) => {
+          queryClient.setQueryData(["board", boardId], context?.previousBoard);
+      },
       onSuccess: (newTask) => {
         queryClient.setQueryData(
           ["board", boardId],
@@ -39,7 +67,7 @@ export const useTask = ({ boardId, id }: TaskProps) => {
               };
             const newCards = oldData.data.cards.map((card) => {
               if (card.id === newTask.data.card_id) {
-                return { ...card, tasks: [...card.tasks, newTask.data] };
+                return { ...card, tasks: card.tasks.map((task) => task.id === 'temp-id' ? newTask.data : task) };
               }
               return card;
             });
@@ -125,23 +153,27 @@ export const useTask = ({ boardId, id }: TaskProps) => {
   // delete task mutation
   const { mutateAsync: deleteTaskMutation, isPending: isPendingDelete } =
     useMutation({
-      mutationFn: async (cardId: Pick<TaskData, "cardId">) => {
-        await axios.delete(`/api/cards/${cardId}/tasks/${id}`);
+      mutationFn: async (data: Pick<TaskData, "cardId">) => {
+        await axios.delete(`/api/cards/${data.cardId}/tasks/${id}`);
       },
-      onSuccess: (_, variables) => {
+      onMutate: async (data: Pick<TaskData, "cardId">) => {
+        await queryClient.cancelQueries({ queryKey: ["board", boardId] });
+
+        const previousBoard = queryClient.getQueryData<{data: BoardIdType}>(["board", boardId]);
+
         queryClient.setQueryData(
           ["board", boardId],
           (oldData: { data: BoardIdType }) => {
-            if (!oldData) return;
+            if (!oldData) return ;
             const deletedTaskOrder =
               oldData.data.cards
-                .find((card) => card.id === variables.cardId)
+                .find((card) => card.id === data.cardId)
                 ?.tasks.find((task) => task.id === id)?.order || 0;
             return {
               data: {
                 ...oldData.data,
                 cards: oldData.data.cards.map((card) => {
-                  if (card.id === variables.cardId) {
+                  if (card.id === data.cardId) {
                     return {
                       ...card,
                       tasks: card.tasks
@@ -161,13 +193,18 @@ export const useTask = ({ boardId, id }: TaskProps) => {
             };
           }
         );
+
+        return { previousBoard };
+      },
+      onError: (error, variables, context) => {
+        queryClient.setQueryData(["board", boardId], context?.previousBoard);
       },
     });
 
   // delete task
-  const deleteTask = async (cardId: Pick<TaskData, "cardId">) => {
+  const deleteTask = async (data: Pick<TaskData, "cardId">) => {
     try {
-      await deleteTaskMutation(cardId);
+      await deleteTaskMutation(data);
     } catch (error) {
       console.error("delete task failed");
       if (error instanceof AxiosError && error.response) {
