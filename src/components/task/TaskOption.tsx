@@ -8,12 +8,14 @@ import { TaskType } from "@/types/Task";
 
 type TaskOptionProps = {
     task: TaskType;
+    boardId: string;
 };
 
 const TaskOption = ({
-    task
+    task,
+    boardId
 } : TaskOptionProps) => {
-    const { deleteTask, isPendingDelete, isPendingUpdate, startEditingTask } = useTask({ id: task.id });
+    const { deleteTask, isPendingDelete, isPendingUpdate, startEditingTask } = useTask({ id: task.id, boardId: boardId });
     const { toast } = useToast();
 
     const handleDelete = async () => {

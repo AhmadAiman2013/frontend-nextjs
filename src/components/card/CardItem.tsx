@@ -15,7 +15,7 @@ const CardItem = ( { card } : CardItemProps ) => {
         <CardHeaderWrapper card={card} editing={isEditingCard({id: card.id})}/>
         <ol className="gap-2">
             {card.tasks?.map((task, key) => (
-                <TaskItem key={key} task={task} />
+                <TaskItem key={key} task={task} boardId={card.boards_id}/>
             ))}
         </ol>
         <TaskCreate cardId={card.id} boardId={card.boards_id}/>
