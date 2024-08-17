@@ -78,7 +78,7 @@ export const useTask = ({ boardId, id }: TaskProps) => {
     });
 
   // create task
-  const createCard = async (data: TaskData): Promise<TaskResponse> => {
+  const createTask = async (data: TaskData): Promise<TaskResponse> => {
     try {
       return await createTaksMutation(data);
     } catch (error) {
@@ -219,7 +219,7 @@ export const useTask = ({ boardId, id }: TaskProps) => {
   };
 
   return {
-    createCard,
+    createTask,
     updateTask,
     deleteTask,
     isPendingCreate,
