@@ -42,7 +42,7 @@ const BoardsPage = () => {
         ) : (
           <>
             {board?.data?.cards?.map((card, key) => {
-              return <CardItem key={key} card={card} pathname={pathname}/>;
+              return <CardItem key={key} card={card} />;
             })}
             <CardCreate boardId={id as string}/>
           </>

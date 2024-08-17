@@ -1,12 +1,17 @@
-import { TaskType } from "@/types/Task"
+import { TaskType } from "@/types/Task";
+import TaskOption from "./TaskOption";
 
-
-const TaskItem = ({task} : {task : TaskType}) => {
+const TaskItem = ({ task }: { task: TaskType }) => {
   return (
-    <div className="mb-2 mx-1 truncate border-2 border-transparent hover:border-blue-primary py-2 px-2 text-sm bg-white dark:bg-[#333366] dark:text-[#CCCCFF] rounded-md shadow-sm">
+    <div className="flex items-center relative group mb-2 mx-1 truncate border-2 border-transparent hover:border-blue-primary py-2 px-2 text-sm bg-white dark:bg-[#333366] dark:text-[#CCCCFF] rounded-md shadow-sm">
+      <div className="group-hover:opacity-50 transition-opacity duration-200">
         {task.title}
+      </div>
+      <div className="absolute right-0 bg-white dark:bg-[#333366] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mr-1">
+        <TaskOption task={task} />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default TaskItem
+export default TaskItem;

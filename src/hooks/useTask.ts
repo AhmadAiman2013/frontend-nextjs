@@ -27,33 +27,43 @@ export const useTask = ({ boardId, id }: TaskProps) => {
         );
         return { data: response.data.data };
       },
-      onMutate: async (newTask : TaskData) => {
+      onMutate: async (newTask: TaskData) => {
         await queryClient.cancelQueries({ queryKey: ["board", boardId] });
 
-        const previousBoard = queryClient.getQueryData<{data: BoardIdType}>(["board", boardId]);
+        const previousBoard = queryClient.getQueryData<{ data: BoardIdType }>([
+          "board",
+          boardId,
+        ]);
 
-        queryClient.setQueryData(["board", boardId], (oldData: { data: BoardIdType }) => {
-          if (!oldData) return { data: { cards: [{ id: newTask.cardId, tasks: [{
-            id: 'temp-id',
-            card_id: newTask.cardId,
-            ...newTask,
-          }] }] } };
-          const newCards = oldData.data.cards.map((card) => {
-            if (card.id === newTask.cardId) {
-              return {
-                ...card,
-                tasks: [...card.tasks, {id: 'temp-id', card_id: newTask.cardId, ...newTask}],
-              };
-            }
-            return card;
-          });
-          return { data: { cards: newCards } };
-        });
+        queryClient.setQueryData(
+          ["board", boardId],
+          (oldData: { data: BoardIdType }) => {
+            if (!oldData) return;
+            const newCards = oldData.data.cards.map((card) => {
+              if (card.id === newTask.cardId) {
+                return {
+                  ...card,
+                  tasks: [
+                    ...card.tasks,
+                    { id: "temp-id", card_id: newTask.cardId, ...newTask },
+                  ],
+                };
+              }
+              return card;
+            });
+            return {
+              data: {
+                ...oldData.data,
+                cards: newCards,
+              },
+            };
+          }
+        );
 
         return { previousBoard };
       },
       onError: (error, variables, context) => {
-          queryClient.setQueryData(["board", boardId], context?.previousBoard);
+        queryClient.setQueryData(["board", boardId], context?.previousBoard);
       },
       onSuccess: (newTask) => {
         queryClient.setQueryData(
@@ -67,11 +77,21 @@ export const useTask = ({ boardId, id }: TaskProps) => {
               };
             const newCards = oldData.data.cards.map((card) => {
               if (card.id === newTask.data.card_id) {
-                return { ...card, tasks: card.tasks.map((task) => task.id === 'temp-id' ? newTask.data : task) };
+                return {
+                  ...card,
+                  tasks: card.tasks.map((task) =>
+                    task.id === "temp-id" ? newTask.data : task
+                  ),
+                };
               }
               return card;
             });
-            return { data: { cards: newCards } };
+            return {
+              data: {
+                ...oldData.data,
+                cards: newCards,
+              },
+            };
           }
         );
       },
@@ -159,12 +179,15 @@ export const useTask = ({ boardId, id }: TaskProps) => {
       onMutate: async (data: Pick<TaskData, "cardId">) => {
         await queryClient.cancelQueries({ queryKey: ["board", boardId] });
 
-        const previousBoard = queryClient.getQueryData<{data: BoardIdType}>(["board", boardId]);
+        const previousBoard = queryClient.getQueryData<{ data: BoardIdType }>([
+          "board",
+          boardId,
+        ]);
 
         queryClient.setQueryData(
           ["board", boardId],
           (oldData: { data: BoardIdType }) => {
-            if (!oldData) return ;
+            if (!oldData) return;
             const deletedTaskOrder =
               oldData.data.cards
                 .find((card) => card.id === data.cardId)

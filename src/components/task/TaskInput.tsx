@@ -1,8 +1,184 @@
+import { useForm } from "@tanstack/react-form";
+import { valibotValidator } from "@tanstack/valibot-form-adapter";
+import { TaskDataSchema } from "@/types/schema/TaskSchema";
+import { useTask } from "@/hooks/useTask";
+import { ElementRef, useRef, useState } from "react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { LoaderCircle } from "lucide-react";
+import { useToast } from "../ui/use-toast";
+import { useOnClickOutside } from "usehooks-ts";
 
+interface FormValues {
+  title: string;
+}
+interface TaskInputFormProps {
+  initialValues: FormValues;
+  mode: "create" | "update";
+  id?: string;
+  cardId: string;
+  boardId: string;
+  onCreateComplete?: () => void;
+}
 
-const TaskInput = () => {
+const TaskInput = ({
+  initialValues,
+  mode,
+  id,
+  cardId,
+  boardId,
+  onCreateComplete,
+} : TaskInputFormProps) => {
+  const [error, setErrors] = useState<string>("");
+  const { createTask, isPendingCreate, updateTask, isPendingUpdate, stopEditingTask } = useTask({
+    id,
+    boardId
+  });
+  const { toast } = useToast();
+  const formRef = useRef<ElementRef<"form">>(null);
+
+  const form = useForm({
+    defaultValues: initialValues,
+    validatorAdapter: valibotValidator(),
+    onSubmit: async ({ value }) => {
+      let response;
+      let newValue = {...value, cardId}
+
+      if (mode === "update") {
+        response = await updateTask(newValue);
+        if (response.error) {
+          setErrors(response.error);
+          toast({
+            variant: "destructive",
+            title: "Something went wrong",
+            description: response.error,
+          });
+          return;
+        }
+        toast({
+          className: "bg-green-500",
+          description: `"${response.data?.title}" task updated`,
+        });
+        stopEditingTask({ id: id as string});
+        return;
+      } else {
+        if (onCreateComplete) {
+          onCreateComplete();
+        }
+        response = await createTask(newValue);
+        if (response.error) {
+          setErrors(response.error);
+          toast({
+            variant: "destructive",
+            title: "Something went wrong",
+            description: response.error,
+          });
+          return;
+        }
+        toast({
+          className: "bg-green-500",
+          description: `"${response.data?.title}" task created`,
+        });
+        form.reset();
+      }
+    },
+  });
+
+  const handleClickOutside = () => {
+    const isPristine = form.state.isPristine
+    const isDirty = form.state.isDirty
+    const isValid = form.state.isValid
+
+    if (isPristine) {
+      stopEditingTask({id: id as string});
+      if (onCreateComplete) {
+        onCreateComplete();
+      }
+      return ;
+    }
+
+    if (isDirty && isValid) {
+      form.handleSubmit()
+    }
+  }
+
+  useOnClickOutside(formRef, handleClickOutside)
+  
   return (
-    <div>TaskInput</div>
+    <div>
+      <form
+        ref={formRef}
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+        className="px-2 pb-2"
+      >
+        <form.Field
+          name="title"
+          asyncDebounceMs={500}
+          validators={{
+            onChange: TaskDataSchema.entries.title,
+            onChangeAsyncDebounceMs: 500,
+          }}
+          children={(field) => {
+            return (
+              <div>
+                <Label
+                  htmlFor={field.name}
+                  className="font-medium text-sm mb-2"
+                ></Label>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    disabled={isPendingUpdate || isPendingCreate}
+                    className="mt-1 w-full p-3 "
+                  />
+                  {mode === "create" && (
+                    <form.Subscribe
+                      selector={(state) => [
+                        state.canSubmit,
+                        state.isSubmitting,
+                      ]}
+                      children={([canSubmit, isSubmitting]) => (
+                        <Button
+                          className="flex-grow ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
+                          disabled={!canSubmit}
+                        >
+                          {isSubmitting ? (
+                            <p className="flex gap-2">
+                              <LoaderCircle
+                                size={20}
+                                className="animate-spin"
+                              />{" "}
+                              Create
+                            </p>
+                          ) : (
+                            "Create"
+                          )}
+                        </Button>
+                      )}
+                    />
+                  )}
+                
+                {field.state.meta.isTouched &&
+                field.state.meta.errors.length ? (
+                  <em className="text-xs text-red-500">
+                    {field.state.meta.errors.join(", ")}
+                  </em>
+                ) : null}
+              </div>
+            );
+          }}
+        />
+        {error && <p className="text-xs text-red-500">{error}</p>}
+      </form>
+    </div>
   )
 }
 
