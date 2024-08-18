@@ -4,6 +4,7 @@ import { useTask } from "@/hooks/useTask";
 import { useToast } from "../ui/use-toast";
 import { Pencil, SquarePen, Trash } from "lucide-react";
 import { TaskType } from "@/types/Task";
+import TaskCalendar from "./TaskCalendar";
 
 
 type TaskOptionProps = {
@@ -38,6 +39,7 @@ const TaskOption = ({
         startEditingTask({ id: task.id });
     };
 
+
     return (
         <PopoverElement
             triggerElement={
@@ -67,6 +69,7 @@ const TaskOption = ({
                             <Trash size={20} />
                         </Button>
                     </div>
+                    <TaskCalendar />
                 </div>
             }
         />

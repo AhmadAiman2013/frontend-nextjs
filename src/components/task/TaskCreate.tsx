@@ -21,7 +21,6 @@ const TaskCreate = ({ cardId, boardId }: TaskCreateProps) => {
         <div className="rounded-md bg-[#f1f2f4] dark:bg-[#000022]">
           <TaskInput
             initialValues={{ title: "" }}
-            mode="create"
             cardId={cardId}
             boardId={boardId}
             onCreateComplete={handleCreateComplete}
