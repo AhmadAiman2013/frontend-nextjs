@@ -5,8 +5,6 @@ import { useTask } from "@/hooks/useTask";
 import { ElementRef, useRef, useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { LoaderCircle } from "lucide-react";
 import { useToast } from "../ui/use-toast";
 import { useOnClickOutside } from "usehooks-ts";
 
