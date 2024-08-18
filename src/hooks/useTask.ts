@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { BoardIdType } from "@/types/Board";
-import { TaskData } from "@/types/schema/TaskSchema";
+import { TaskData, TaskEditData } from "@/types/schema/TaskSchema";
 import { TaskResponse, TaskType } from "@/types/Task";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -117,44 +117,49 @@ export const useTask = ({ boardId, id }: TaskProps) => {
   // update task mutation
   const { mutateAsync: updateTaskMutation, isPending: isPendingUpdate } =
     useMutation({
-      mutationFn: async (data: TaskData) => {
+      mutationFn: async (data: TaskEditData) => {
         const response = await axios.put<{ data: TaskType }>(
           `/api/cards/${data.cardId}/tasks/${id}`,
           data
         );
         return { data: response.data.data };
       },
-      onSuccess: (newTask) => {
-        queryClient.setQueryData(
-          ["board", boardId],
-          (oldData: { data: BoardIdType }) => {
-            if (!oldData)
+      onMutate: async (updateTask: TaskEditData) => {
+        await queryClient.cancelQueries({ queryKey: ["board", boardId] });
+
+        const previousBoard = queryClient.getQueryData<{ data: BoardIdType }>([
+          "board",
+          boardId,
+        ]);
+
+        queryClient.setQueryData(["board", boardId], (oldData : {data : BoardIdType}) => {
+          if (!oldData) return;
+          const updatedCard = oldData.data.cards.map((card) => {
+            if (card.id === updateTask.cardId) {
               return {
-                data: {
-                  cards: [{ id: newTask.data.card_id, tasks: [newTask.data] }],
-                },
+                ...card,
+                tasks: card.tasks.map((task) => {
+                  if (task.id === id) {
+                    return { ...task, ...updateTask };
+                  }
+                  return task;
+                }),
               };
-            const newCards = oldData.data.cards.map((card) => {
-              if (card.id === newTask.data.card_id) {
-                return {
-                  ...card,
-                  tasks: card.tasks.map((task) => {
-                    if (task.id === id) {
-                      return newTask.data;
-                    }
-                    return task;
-                  }),
-                };
-              }
-              return card;
-            });
-            return { data: { cards: newCards } };
-          }
-        );
+            }
+            return card;
+          })
+          return { data: { cards: updatedCard } };
+        });
+
+        return { previousBoard };
+
       },
+      onError: (error, variables, context) => {
+        queryClient.setQueryData(["board", boardId], context?.previousBoard);
+      }
     });
   // update task
-  const updateTask = async (data: TaskData): Promise<TaskResponse> => {
+  const updateTask = async (data: TaskEditData): Promise<TaskResponse> => {
     try {
       return await updateTaskMutation(data);
     } catch (error) {
