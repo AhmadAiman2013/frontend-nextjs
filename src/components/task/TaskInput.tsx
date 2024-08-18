@@ -15,7 +15,6 @@ interface FormValues {
 }
 interface TaskInputFormProps {
   initialValues: FormValues;
-  mode: "create" | "update";
   id?: string;
   cardId: string;
   boardId: string;
@@ -24,14 +23,13 @@ interface TaskInputFormProps {
 
 const TaskInput = ({
   initialValues,
-  mode,
   id,
   cardId,
   boardId,
   onCreateComplete,
 } : TaskInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createTask, isPendingCreate, updateTask, isPendingUpdate, stopEditingTask } = useTask({
+  const { createTask, isPendingCreate, updateTask, isPendingUpdate } = useTask({
     id,
     boardId
   });
@@ -44,25 +42,6 @@ const TaskInput = ({
     onSubmit: async ({ value }) => {
       let response;
       let newValue = {...value, cardId}
-
-      if (mode === "update") {
-        response = await updateTask(newValue);
-        if (response.error) {
-          setErrors(response.error);
-          toast({
-            variant: "destructive",
-            title: "Something went wrong",
-            description: response.error,
-          });
-          return;
-        }
-        toast({
-          className: "bg-green-500",
-          description: `"${response.data?.title}" task updated`,
-        });
-        stopEditingTask({ id: id as string});
-        return;
-      } else {
         if (onCreateComplete) {
           onCreateComplete();
         }
@@ -82,7 +61,6 @@ const TaskInput = ({
         });
         form.reset();
       }
-    },
   });
 
   const handleClickOutside = () => {
@@ -91,7 +69,6 @@ const TaskInput = ({
     const isValid = form.state.isValid
 
     if (isPristine) {
-      stopEditingTask({id: id as string});
       if (onCreateComplete) {
         onCreateComplete();
       }
