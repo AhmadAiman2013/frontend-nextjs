@@ -114,7 +114,7 @@ const TaskInput = ({
           e.stopPropagation();
           form.handleSubmit();
         }}
-        className="px-2 pb-2"
+        // className="pb-2"
       >
         <form.Field
           name="title"
@@ -125,10 +125,12 @@ const TaskInput = ({
           }}
           children={(field) => {
             return (
-              <div>
+              <div 
+              // className="space-y-2 mx-1"
+              >
                 <Label
                   htmlFor={field.name}
-                  className="font-medium text-sm mb-2"
+                  className="font-medium text-sm "
                 ></Label>
                   <Input
                     id={field.name}
@@ -137,34 +139,8 @@ const TaskInput = ({
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
                     disabled={isPendingUpdate || isPendingCreate}
-                    className="mt-1 w-full p-3 "
+                    className="w-full"
                   />
-                  {mode === "create" && (
-                    <form.Subscribe
-                      selector={(state) => [
-                        state.canSubmit,
-                        state.isSubmitting,
-                      ]}
-                      children={([canSubmit, isSubmitting]) => (
-                        <Button
-                          className="flex-grow ml-3 items-center px-4 py-2 font-semibold text-xs uppercase tracking-widest bg-gradient-to-r from-blue-500 to-fuchsia-500 text-white hover:from-pink-500 hover:to-violet-500 disabled:opacity-25 transition ease-in-out duration-150"
-                          disabled={!canSubmit}
-                        >
-                          {isSubmitting ? (
-                            <p className="flex gap-2">
-                              <LoaderCircle
-                                size={20}
-                                className="animate-spin"
-                              />{" "}
-                              Create
-                            </p>
-                          ) : (
-                            "Create"
-                          )}
-                        </Button>
-                      )}
-                    />
-                  )}
                 
                 {field.state.meta.isTouched &&
                 field.state.meta.errors.length ? (

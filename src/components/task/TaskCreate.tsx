@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { CirclePlus, Plus } from "lucide-react";
 import { Button } from "../ui/button";
 import TaskInput from "./TaskInput";
 import { useState } from "react";
@@ -16,9 +16,9 @@ const TaskCreate = ({ cardId, boardId }: TaskCreateProps) => {
   };
 
   return (
-    <div>
+    <div className="mx-1">
       {isCreating ? (
-        <div className="rounded-md bg-[#f1f2f4] dark:bg-[#000022] shadow-lg shadow-blue-900/40 dark:shadow-md dark:shadow-blue-primary/40">
+        <div className="rounded-md bg-[#f1f2f4] dark:bg-[#000022]">
           <TaskInput
             initialValues={{ title: "" }}
             mode="create"
@@ -29,11 +29,11 @@ const TaskCreate = ({ cardId, boardId }: TaskCreateProps) => {
         </div>
       ) : (
         <Button
+        variant="ghost"
           onClick={() => setIsCreating(true)}
-          className="flex justify-start bg-gradient-to-r  from-blue-200 to-fuchsia-200 hover:from-blue-400 hover:to-fuchsia-400  text-blue-800 hover:text-blue-900 dark:text-white/90 dark:bg-gradient-to-r dark:from-blue-500/40 dark:to-fuchsia-500/40 dark:hover:text-white dark:hover:from-blue-500 dark:hover:to-fuchsia-500 transition duration-300 ease-out hover:scale-105"
+          className="flex justify-center w-full transition duration-300"
         >
-          <Plus size={20} className="mr-2" />
-          <p>Create a task!</p>
+          <CirclePlus size={20} className="mr-2" />
         </Button>
       )}
     </div>

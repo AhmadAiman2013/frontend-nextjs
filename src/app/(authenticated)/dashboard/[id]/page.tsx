@@ -32,7 +32,7 @@ const BoardsPage = () => {
           />
         )}
       </div>
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 h-auto gap-3 item-start">
         {isLoadingBoard ? (
           <>
             <Skeleton className="w-[238px] h-[150px]" />
