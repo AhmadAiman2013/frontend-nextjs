@@ -3,11 +3,14 @@ import PopoverElement from "../PopoverElement";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { useState } from "react";
-import { format, set } from "date-fns";
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 
 
 const TaskCalendar = () => {
   const [date, setDate] = useState<Date>();
+  dayjs.extend(localizedFormat)
+
   return (
     <PopoverElement
       triggerElement={
@@ -18,13 +21,11 @@ const TaskCalendar = () => {
       popoverContent={
         <div>
           <Calendar
-           captionLayout="dropdown-buttons" fromYear={2010} toYear={2024}
             mode="single"
             selected={date}
             onSelect={setDate}
             initialFocus
           />
-          <div className="mx-1">{date ? format(date, "PP") : "Select a date"}</div>
         </div>
       }
       side="right"

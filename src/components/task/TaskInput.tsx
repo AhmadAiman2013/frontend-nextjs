@@ -27,7 +27,7 @@ const TaskInput = ({
   onCreateComplete,
 } : TaskInputFormProps) => {
   const [error, setErrors] = useState<string>("");
-  const { createTask, isPendingCreate, updateTask, isPendingUpdate } = useTask({
+  const { createTask, isPendingCreate,  isPendingUpdate } = useTask({
     id,
     boardId
   });
