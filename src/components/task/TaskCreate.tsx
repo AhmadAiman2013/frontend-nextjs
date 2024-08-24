@@ -23,6 +23,7 @@ const TaskCreate = ({ cardId, boardId }: TaskCreateProps) => {
             initialValues={{ title: "" }}
             cardId={cardId}
             boardId={boardId}
+            mode="create"
             onCreateComplete={handleCreateComplete}
           />
         </div>

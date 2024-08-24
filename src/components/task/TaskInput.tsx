@@ -14,6 +14,7 @@ interface FormValues {
 interface TaskInputFormProps {
   initialValues: FormValues;
   id?: string;
+  mode: "create" | "update";
   cardId: string;
   boardId: string;
   onCreateComplete?: () => void;
