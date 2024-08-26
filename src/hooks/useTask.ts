@@ -148,7 +148,10 @@ export const useTask = ({ boardId, id }: TaskProps) => {
             }
             return card;
           })
-          return { data: { cards: updatedCard } };
+          return { data: { 
+            ...oldData.data,
+            cards: updatedCard 
+          } };
         });
 
         return { previousBoard };
