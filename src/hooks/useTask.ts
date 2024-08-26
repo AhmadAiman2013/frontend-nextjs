@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { useEditStore } from "@/utils/board-store-provider";
 
 interface TaskProps {
-  boardId: string;
+  boardId?: string;
   id?: string;
 }
 
