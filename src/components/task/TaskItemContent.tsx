@@ -18,7 +18,7 @@ const TaskItemContent = ({ task, boardId }: TaskItemContentProps) => {
 
   return (
     <div className="flex items-center group mb-2 mx-1 relative border-2 border-transparent hover:border-blue-primary  py-2 px-2 text-sm bg-white dark:bg-[#333366] dark:text-[#CCCCFF] rounded-md shadow-sm">
-      <div className="group-hover:opacity-40 transition-opacity duration-200">
+      <div >
         {dueDate && (
           <div className={cn(
             "flex items-center gap-2",
@@ -28,7 +28,7 @@ const TaskItemContent = ({ task, boardId }: TaskItemContentProps) => {
             <div>{dayjs(dueDate).format("ll")}</div>
           </div>
         )}
-        <div>{task.title}</div>
+        <div className="group-hover:opacity-40 transition-opacity duration-200">{task.title}</div>
       </div>
       <div className="absolute right-0 bg-white dark:bg-[#333366] opacity-0 group-hover:opacity-100 transition-opacity duration-200 mr-1">
         <TaskOption task={task} boardId={boardId} />
