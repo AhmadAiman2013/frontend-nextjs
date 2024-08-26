@@ -4,6 +4,7 @@ export type TaskType = {
     title: string;
     order: number;
     completed: boolean ;
+    due_date: Date;
     created_at: Date;
     updated_at: Date;
 }

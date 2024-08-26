@@ -4,13 +4,11 @@ import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { useState } from "react";
 import { useTask } from "@/hooks/useTask";
-import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 
 const TaskCalendar = () => {
   const [date, setDate] = useState<Date>();
   const { updateTask, isPendingUpdate } = useTask({});
-  dayjs.extend(localizedFormat);
+  
   return (
     <PopoverElement
       triggerElement={
