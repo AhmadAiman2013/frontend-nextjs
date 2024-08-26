@@ -11,7 +11,14 @@ import PopoverElement from "@/components/PopoverElement";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardPage = () => {
-  const { boards, isLoadingBoards, isEditingBoard, createBoard, updateBoard, stopEditingBoard } = useBoard({});
+  const {
+    boards,
+    isLoadingBoards,
+    isEditingBoard,
+    createBoard,
+    updateBoard,
+    stopEditingBoard,
+  } = useBoard({});
   const pathname = usePathname();
 
   return (
@@ -31,13 +38,19 @@ const DashboardPage = () => {
       </div>
       <div>
         <section className="flex gap-2">
-          <div className="basis-3/4 flex gap-2 items-center">
-            <Calendar size={20} />
-            <p>Calendar</p>
+          <div className="basis-3/4 mb-4">
+            <div className="flex gap-2 items-center">
+              <Calendar size={20} />
+              <p>Calendar</p>
+            </div>
+            <div className="my-2">Coming Soon!</div>
           </div>
-          <div className="basis-1/4 flex gap-2 items-center">
-            <CircleCheckBig size={20} />
-            <p>Recent tasks</p>
+          <div className="basis-1/4 ">
+            <div className="flex gap-2 items-center">
+              <CircleCheckBig size={20} />
+              <p>Recent tasks</p>
+            </div>
+            <div  className="my-2">Coming Soon!</div>
           </div>
         </section>
         <section>
@@ -61,7 +74,10 @@ const DashboardPage = () => {
                       title={board.title}
                       id={board.id}
                       pathname={pathname}
-                      editing={isEditingBoard({ pageRoute: pathname, id: board.id })}
+                      editing={isEditingBoard({
+                        pageRoute: pathname,
+                        id: board.id,
+                      })}
                     />
                   );
                 })}
