@@ -7,7 +7,7 @@ import { AxiosError } from "axios";
 import { useEditStore } from "@/utils/board-store-provider";
 
 interface TaskProps {
-  boardId?: string;
+  boardId: string;
   id?: string;
 }
 
@@ -118,10 +118,12 @@ export const useTask = ({ boardId, id }: TaskProps) => {
   const { mutateAsync: updateTaskMutation, isPending: isPendingUpdate } =
     useMutation({
       mutationFn: async (data: TaskEditData) => {
+        console.log(data)
         const response = await axios.put<{ data: TaskType }>(
           `/api/cards/${data.cardId}/tasks/${id}`,
           data
         );
+        console.log(response.data.data)
         return { data: response.data.data };
       },
       onMutate: async (updateTask: TaskEditData) => {
@@ -132,9 +134,9 @@ export const useTask = ({ boardId, id }: TaskProps) => {
           boardId,
         ]);
 
-        queryClient.setQueryData(["board", boardId], (oldData : {data : BoardIdType}) => {
-          if (!oldData) return;
-          const updatedCard = oldData.data.cards.map((card) => {
+        queryClient.setQueryData(["board", boardId], (oldData: { data: BoardIdType }) => {
+          if (!oldData) return oldData;
+          const updatedCards = oldData.data.cards.map((card) => {
             if (card.id === updateTask.cardId) {
               return {
                 ...card,
@@ -147,19 +149,20 @@ export const useTask = ({ boardId, id }: TaskProps) => {
               };
             }
             return card;
-          })
-          return { data: { 
-            ...oldData.data,
-            cards: updatedCard 
-          } };
+          });
+          return { 
+            data: { 
+              ...oldData.data,
+              cards: updatedCards 
+            } 
+          };
         });
 
         return { previousBoard };
-
       },
       onError: (error, variables, context) => {
         queryClient.setQueryData(["board", boardId], context?.previousBoard);
-      }
+      },
     });
   // update task
   const updateTask = async (data: TaskEditData): Promise<TaskResponse> => {

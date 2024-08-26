@@ -69,7 +69,7 @@ const TaskOption = ({
                             <Trash size={20} />
                         </Button>
                     </div>
-                    <TaskCalendar />
+                    <TaskCalendar task={task} boardId={boardId}/>
                 </div>
             }
         />
