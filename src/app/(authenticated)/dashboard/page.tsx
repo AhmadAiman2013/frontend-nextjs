@@ -15,9 +15,6 @@ const DashboardPage = () => {
     boards,
     isLoadingBoards,
     isEditingBoard,
-    createBoard,
-    updateBoard,
-    stopEditingBoard,
   } = useBoard({});
   const pathname = usePathname();
 

@@ -44,9 +44,9 @@ const BoardsPage = () => {
             {board?.data?.cards?.map((card, key) => {
               return <CardItem key={key} card={card} />;
             })}
-            <CardCreate boardId={id as string}/>
           </>
         )}
+        <CardCreate boardId={id as string}/>
       </div>
     </div>
   );
