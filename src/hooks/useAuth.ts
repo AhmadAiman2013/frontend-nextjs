@@ -64,6 +64,7 @@ export const useAuth = ({middleware, redirectIfAuthenticated, redirectIfNotAuthe
   //login google
   const loginGoogle = async () => { 
     try {
+      await csrf();
       window.location.href = `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/redirect`;
     } catch (error: any) {
       console.error("Login failed");
